@@ -1,0 +1,66 @@
+
+html, body {
+    background-color: #fff;
+    color: #161515;
+    font-family: "Nunito", 'Lato';
+    font-weight: 300;
+    height: 100vh;
+    margin: 0;
+}
+
+.flex-center {
+    max-width: 1400px;
+    margin: auto;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.links {
+    display: flex;
+    gap: 30px;
+}
+
+.links > a {
+    color: #161515;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.auth a {
+    color: #636b6f;
+    padding: 0 20px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .1rem;
+    text-decoration: none;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+.user-data-container {
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
