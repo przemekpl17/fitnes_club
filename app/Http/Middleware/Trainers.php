@@ -22,7 +22,7 @@ class Trainers
 
         //Admin role = 2
         if(Auth::user()->account_type == 2) {
-            return redirect()-route('admin');
+            return redirect()->route('admin');
         }
 
         //trainer role = 1
@@ -32,7 +32,7 @@ class Trainers
 
         //client role = 0
         if(Auth::user()->account_type == 0) {
-            return redirect()-route('clients');
+            return redirect()->route('clients');
         }
     }
 }

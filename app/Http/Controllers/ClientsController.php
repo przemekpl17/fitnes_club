@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Jenssegers\Date\Date;
 use App\GroupActivity;
 use App\PersonalTraining;
 use App\Ticket;
 use App\Trainer;
+use App\User;
 use DB;
 use App\Client;
-use App\User;
-use App\Clients_GroupActivities;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,20 +22,21 @@ class ClientsController extends Controller
      */
     public function index()
     {
-
-        $id_client = Auth::user()->id_client;
+        $user = Auth::user();
+        $id_client = $user->id_client;
         $client = Client::find($id_client);
 
         $ticket = Ticket::where('id_client_ticket', $id_client)->first();
-
         return view ('clients.index')->with([
             'client' => $client,
-            'ticket' => $ticket
+            'ticket' => $ticket,
         ]);
     }
 
     //Widok z kalendarzem aktywności użytkownika
     public function clientActivity(){
+
+        Date::setLocale('pl');
 
         $id_client = Auth::user()->id_client;
         $actualDay = Carbon::parse(Carbon::now());
@@ -51,8 +51,9 @@ class ClientsController extends Controller
             $nameOfDay = Carbon::createFromDate($today->year, $today->month, $i)->format('l');
             $numberOfDay = intval(Carbon::createFromDate($today->year, $today->month, $i)->format('d'));
 
+
             $daysOfMonth[$weekCounter][] = [
-                'name_of_day' => $nameOfDay,
+                'name_of_day' => Date::parse($nameOfDay)->format('l'),
                 'number_of_day' => $numberOfDay,
                 'full_date' => $fullDate,
                 'personal_training' => PersonalTraining::whereDate('date_time_from', $rowDate)
@@ -71,7 +72,7 @@ class ClientsController extends Controller
                 $weekCounter++;
             }
         }
-        //dump($daysOfMonth);
+
         return view ('clients.clientActivity')->with([
             'id_client' => $id_client,
             'actualDay' => $actualDay,
@@ -82,20 +83,12 @@ class ClientsController extends Controller
     }
 
     //aktualizacja danych użytkownika
-    public function clientUpdate(){
-        $id_client = Auth::user()->id_client;
-        $client = Client::find($id_client);
-        return view('clients.clientUpdate')->with('client', $client);
-    }
+    public function clientUpdate($id_client){
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $client = Client::find($id_client);
+        return view('clients.clientUpdate')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -124,28 +117,6 @@ class ClientsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -154,12 +125,30 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
+    ;
         $client = Client::find($id);
+        $request->validate([
+            'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'city' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'telefon' => 'max:9',
+            'post_code' => 'regex:/^([0-9]{2})(-[0-9]{3})?$/i',
+            'email' => 'nullable|email|unique:client,email,'.$client->id_client.",id_client",
+        ],
+            [
+                'name.regex' => 'Imię nie może zawierać cyfr.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr.',
+                'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
+                'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
+                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
+        ]);
+
         $client->name = $request->input('name');
         $client->surname = $request->input('surname');
         $client->gender = $request->input('gender');
         $client->email = $request->input('email');
-        $client->telephone = $request->input('telephone');
+        $client->telephone = $request->input('telefon');
         $client->city = $request->input('city');
         $client->street = $request->input('street');
         $client->street_number = $request->input('street_number');
@@ -168,18 +157,7 @@ class ClientsController extends Controller
 
         $client->save();
 
-        return redirect('/clientUpdate')->with('success', 'Informacje zapisane');
+        return redirect('/client')->with('success', 'Informacje zapisane');
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

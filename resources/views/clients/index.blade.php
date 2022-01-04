@@ -4,16 +4,11 @@
     <div class="user-data-container">
 
         <div class="user-avatar">
-            <img src="" />
             <h3>{{$client->name}} {{$client->surname}}</h3>
             <p>tel: {{$client->telephone}}</p>
             <p>email: {{$client->email}}</p>
             <p>Stan konta: {{$client->account_balance}} zł</p>
-        </div>
-
-        <div class="user-info">
-            <h3>Dane osobowe</h3>
-            <a href="/clientUpdate">Uzupełnij swój profil</a>
+            <a href="/clientUpdate/{{$client->id_client}}">Uzupełnij swój profil</a>
         </div>
 
         <div class="user-calendar">
@@ -23,8 +18,12 @@
 
         <div class="user-ticket">
             <h3>Mój karnet</h3>
-            <h4>Rodzaj: {{$ticket->type}}</h4>
-            <p>ważny do: {{$ticket->date_to->format('d.m.Y')}}</p>
+            @if(empty($ticket))
+                <p>Nie posiadasz karnetu.</p>
+            @else
+                <h4>Rodzaj: {{$ticket->type}}</h4>
+                <p>ważny do: {{$ticket->date_to->format('d.m.Y')}}</p>
+            @endif
         </div>
 
         <div class="user-trainer">

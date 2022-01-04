@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\GroupActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Jenssegers\Date\Date;
 
 class GroupsActivityController extends Controller
 {
@@ -15,7 +16,8 @@ class GroupsActivityController extends Controller
      */
     public function index()
     {
-        if(Auth::check()) {
+        Date::setLocale('pl');
+        if(Auth::user()->account_type == 0) {
             $id_client = Auth::user()->id_client;
             $actualDay = Carbon::parse(Carbon::now());
             $actualWeek = Carbon::now()->weekOfMonth;
@@ -30,7 +32,7 @@ class GroupsActivityController extends Controller
                 $numberOfDay = intval(Carbon::createFromDate($today->year, $today->month, $i)->format('d'));
 
                 $daysOfMonth[$weekCounter][] = [
-                    'name_of_day' => $nameOfDay,
+                    'name_of_day' => Date::parse($nameOfDay)->format('l'),
                     'number_of_day' => $numberOfDay,
                     'full_date' => $fullDate,
                     'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from','asc')->get()
@@ -38,7 +40,6 @@ class GroupsActivityController extends Controller
                 if($nameOfDay == 'Sunday') {
                     $weekCounter++;
                 }
-
             }
 
             return view ('pages.groupActivities')->with([
@@ -48,74 +49,8 @@ class GroupsActivityController extends Controller
                 'daysOfMonth' => $daysOfMonth
             ]);
         }else {
-            return redirect('/login')->with('error', 'Zaloguj się, aby dołączyć do zajęć grupowych.');
+            return redirect('/')->with('error', 'Do tej części strony dostęp mają jedynie zalogowani użytkownicy.');
         }
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

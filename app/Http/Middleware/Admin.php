@@ -27,12 +27,12 @@ class Admin
 
         //trainer role = 1
         if(Auth::user()->account_type == 1) {
-            return redirect()-route('trainers');
+            return redirect()->route('trainers');
         }
 
         //client role = 0
         if(Auth::user()->account_type == 0) {
-            return redirect()-route('clients');
+            return redirect()->route('clients');
         }
     }
 }

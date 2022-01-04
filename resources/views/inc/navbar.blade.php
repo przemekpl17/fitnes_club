@@ -2,9 +2,16 @@
     @if (Route::has('login'))
         <div class="top-right auth">
             @auth
-                <a href="{{ url('/client') }}">{{Auth::user()->name}}</a>
-                <a href="{{ url('/logout') }}">Wyloguj się</a>
-
+                @if (Auth::user()->account_type == 0)
+                    <a href="{{ url('/client') }}">{{Auth::user()->name}}</a>
+                    <a href="{{ url('/logout') }}">Wyloguj się</a>
+                @elseif (Auth::user()->account_type == 1)
+                    <a href="{{ url('/trainer') }}">{{Auth::user()->name}}</a>
+                    <a href="{{ url('/logout') }}">Wyloguj się</a>
+                @else
+                    <a href="{{ url('/admin') }}">{{Auth::user()->name}}</a>
+                    <a href="{{ url('/logout') }}">Wyloguj się</a>
+                @endif
             @else
                 <a href="{{ route('login') }}">Zaloguj się</a>
 

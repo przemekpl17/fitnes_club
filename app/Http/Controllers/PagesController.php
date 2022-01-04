@@ -14,7 +14,7 @@ class PagesController extends Controller
     }
 
     public function tickets() {
-        if (Auth::check()) {
+        if(Auth::user()->account_type == 0) {
             $id_client = Auth::user()->id_client;
             $client_info = Client::find($id_client);
             $tickets = TicketsInfo::all();
@@ -23,12 +23,12 @@ class PagesController extends Controller
                 'client_info' => $client_info,
             ]);
         } else {
-            return redirect('/login')->with('error', 'Zaloguj się, aby kupić karnet.');
+            return redirect('/')->with('error', 'Do tej części strony dostęp mają jedynie zalogowani użytkownicy.');
         }
     }
 
     public function personalTraining() {
-        if (Auth::check()) {
+        if(Auth::user()->account_type == 0) {
             $id_client = Auth::user()->id_client;
             $client_info = Client::find($id_client);
             $trainers = Trainer::all();
@@ -37,7 +37,7 @@ class PagesController extends Controller
                 'client_info' => $client_info
             ]);
         } else {
-            return redirect('/login')->with('error', 'Zaloguj się, aby kupić trening personalny.');
+            return redirect('/')->with('error', 'Do tej części strony dostęp mają jedynie zalogowani użytkownicy.');
         }
     }
 
