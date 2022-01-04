@@ -4,10 +4,10 @@
     <div class="user-data-container">
 
         <div class="user-avatar">
-            <h3>{{$client->name}} {{$client->surname}}</h3>
-            <p>tel: {{$client->telephone}}</p>
+            <h3>@if(!empty($client->name || $client->surname)){{$client->name}} {{$client->surname}}@endif</h3>
+            <p>@if(!empty($client->telephone)) tel: {{$client->telephone}}@endif</p>
             <p>email: {{$client->email}}</p>
-            <p>Stan konta: {{$client->account_balance}} zł</p>
+            <p>@if(!empty($client->account_balance))Stan konta: {{$client->account_balance}} zł @endif</p>
             <a href="/clientUpdate/{{$client->id_client}}">Uzupełnij swój profil</a>
         </div>
 

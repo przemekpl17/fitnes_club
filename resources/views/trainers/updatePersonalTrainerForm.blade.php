@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <a href="/trainer" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => ['TrainersController@updatePersonalTrainer', $trainer->id_trainer, $user[0]->id_users], 'method' => 'POST']) !!}
         <h4>Dane rejestracji</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
-                {{Form::label('title', 'Nowa nazwa użytkownika')}}
+                {{Form::label('title', 'Nazwa użytkownika')}}
                 {{Form::text('name', $user[0]->name, ['class' => 'form-control', 'placeholder' => 'Nazwa użytkownika'])}}
             </div>
 
             <div class="form-group col-md-6">
-                {{Form::label('title', 'Nowy adres email')}}
+                {{Form::label('title', 'Adres email')}}
                 {{Form::text('email', $user[0]->email, ['class' => 'form-control', 'placeholder' => 'Nowy adres email'])}}
             </div>
 
-            <div class="form-group col-md-6">
-                {{Form::label('title', 'Nowe hasło')}}
-                {{Form::password('password', ['class' => 'form-control', 'placeholder' => 'Nowe hasło'])}}
-            </div>
+{{--            <div class="form-group col-md-6">--}}
+{{--                {{Form::label('title', 'Nowe hasło')}}--}}
+{{--                {{Form::password('password', ['class' => 'form-control', 'placeholder' => 'Nowe hasło'])}}--}}
+{{--            </div>--}}
         </div>
 
         <h4>Dane użytkownika</h4>

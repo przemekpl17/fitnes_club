@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Jenssegers\Date\Date;
 
 class TrainersController extends Controller
 {
@@ -20,11 +21,14 @@ class TrainersController extends Controller
      */
     public function index()
     {
-
-        $id_trainer = Auth::user()->id_trainer;
+        $user = Auth::user();
+        $id_trainer = $user->id_trainer;
         $trainer = Trainer::find($id_trainer);
 
-        return view('trainers.index')->with('trainer', $trainer);
+        return view('trainers.index')->with([
+            'trainer' => $trainer,
+            'user' => $user,
+        ]);
     }
 
     //aktualizacja danych tenera
@@ -47,15 +51,15 @@ class TrainersController extends Controller
         $request->validate([
             'password' => 'min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'email' => 'nullable|email|string|unique:users,email,'.$user->id_users.",id_users",
-            'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
             'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'post_code' => 'regex:/^([0-9]{2})(-[0-9]{3})?$/i'
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i'
         ],
             [
-                'name.regex' => 'Imię nie może zawierać cyfr.',
-                'surname.regex' => 'Nazwisko nie może zawierać cyfr.',
+                'trainer_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
                 'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
@@ -83,8 +87,10 @@ class TrainersController extends Controller
         return redirect('/trainer')->with('success', 'Dane zostały zaktualizowane.');
     }
 
-    //Widok z kalendarzem aktywności użytkownika
+    //Widok z kalendarzem aktywności trenera
     public function trainerActivity(){
+
+        Date::setLocale('pl');
 
         $id_trainer = Auth::user()->id_trainer;
 
@@ -101,7 +107,7 @@ class TrainersController extends Controller
             $numberOfDay = intval(Carbon::createFromDate($today->year, $today->month, $i)->format('d'));
 
             $daysOfMonth[$weekCounter][] = [
-                'name_of_day' => $nameOfDay,
+                'name_of_day' => Date::parse($nameOfDay)->format('l'),
                 'number_of_day' => $numberOfDay,
                 'full_date' => $fullDate,
                 'personal_training' => PersonalTraining::whereDate('date_time_from', $rowDate)

@@ -3,14 +3,9 @@
 @section('content')
     <div class="trainer-data-container">
         <div class="trainer-info">
-            <img src="" />
             <h3>{{$trainer->name}} {{$trainer->surname}}</h3>
-            <p>email: {{$trainer->email}}</p>
-            <p>Cena treningu personalnego: {{$trainer->training_price}} zł</p>
-        </div>
-
-        <div class="trainer-info">
-            <h3>Dane osobowe</h3>
+            <p>email: {{$user->email}}</p>
+            <p>@if(!empty($trainer->training_price)) Cena treningu personalnego: {{$trainer->training_price}} zł @endif</p>
             <a href="/updatePersonalTrainerForm/{{$trainer->id_trainer}}">Uzupełnij swój profil</a>
         </div>
 

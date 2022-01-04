@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <a href="/trainer" class="btn btn-primary">Powrót</a>
         <div class="group-activities-content">
             <div class="swiper mySwiper ">
                 <div class="swiper-wrapper ">
@@ -17,7 +18,6 @@
                                             <h5>{{ $activity->name }}</h5>
                                             <h5>{{ \Carbon\Carbon::parse($activity->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($activity->date_time_to)->format('H:i') }}</h5>
                                             <p>Numer sali: {{$activity->room_number}}</p>
-                                            <p>Maksymalna liczba uczestników: {{$activity->max_participants}}</p>
                                         </div>
                                     @endforeach
                                     @foreach($day['personal_training'] as $personal_training)

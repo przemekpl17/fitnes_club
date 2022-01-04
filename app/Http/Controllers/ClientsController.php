@@ -113,7 +113,6 @@ class ClientsController extends Controller
         $client->save();
 
         return redirect('/clientProfile')->with('success', 'Informacje zapisane');
-
     }
 
     /**
@@ -125,22 +124,22 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-    ;
+
         $client = Client::find($id);
         $request->validate([
             'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
             'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
             'telefon' => 'max:9',
-            'post_code' => 'regex:/^([0-9]{2})(-[0-9]{3})?$/i',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'email' => 'nullable|email|unique:client,email,'.$client->id_client.",id_client",
         ],
             [
-                'name.regex' => 'Imię nie może zawierać cyfr.',
-                'surname.regex' => 'Nazwisko nie może zawierać cyfr.',
-                'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
-                'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
+                'name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
+                'city.regex' => 'Nazwa miasta nie może zawierać cyfr lub pozostać puste.',
+                'street.regex' => 'Nazwa ulicy nie może zawierać cyfr lub pozostać puste.',
                 'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
         ]);
 
