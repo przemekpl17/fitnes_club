@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <div class="add-activity">
+            <a href="/admin" class="btn btn-primary">Powrót</a>
             <a href="/addActivityForm" class="btn btn-primary">Dodaj zajęcie grupowe</a>
         </div>
         <div class="group-activities-content">

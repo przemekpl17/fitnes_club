@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <a href="/usersList" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => ['AdminController@updateUser', $client->id_client, $user[0]->id_users], 'method' => 'POST']) !!}
         <h4>Dane rejestracji</h4>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                {{Form::label('title', 'Nowa nazwa użytkownika')}}
+                {{Form::label('title', 'Nazwa użytkownika')}}
                 {{Form::text('name', $user[0]->name, ['class' => 'form-control', 'placeholder' => 'Nazwa użytkownika'])}}
             </div>
 
             <div class="form-group col-md-6">
-                {{Form::label('title', 'Nowy adres email')}}
+                {{Form::label('title', 'Adres email')}}
                 {{Form::text('email', $user[0]->email, ['class' => 'form-control', 'placeholder' => 'Nowy adres email'])}}
             </div>
 
@@ -60,7 +60,7 @@
 
             <div class="form-group col-sm-2">
                 {{Form::label('title', 'Kod pocztowy')}}
-                {{Form::number('post_code', $client->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
+                {{Form::text('post_code', $client->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
             </div>
 
             <div class="col-md-6">

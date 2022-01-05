@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <a href="/trainersList" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => ['AdminController@updateTrainer', $trainer->id_trainer, $user[0]->id_users], 'method' => 'POST']) !!}
     <h4>Dane rejestracji</h4>
     <div class="form-row">
@@ -50,12 +50,12 @@
 
         <div class="form-group col-sm-2">
             {{Form::label('title', 'Numer')}}
-            {{Form::number('street_number', $trainer->street_number, ['class' => 'form-control', 'placeholder' => 'Numer'])}}
+            {{Form::number('street_number', $trainer->street_num, ['class' => 'form-control', 'placeholder' => 'Numer'])}}
         </div>
 
         <div class="form-group col-sm-2">
             {{Form::label('title', 'Kod pocztowy')}}
-            {{Form::number('post_code', $trainer->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
+            {{Form::text('post_code', $trainer->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
         </div>
 
         <div class="col-md-6">

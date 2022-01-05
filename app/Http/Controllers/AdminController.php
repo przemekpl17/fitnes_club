@@ -59,26 +59,25 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'client_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
             'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'telefon' => 'max:9',
-            'post_code' => 'regex:/^([0-9]{2})(-[0-9]{3})?$/i',
-            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:client',
-            'email' => 'nullable|email|string|unique:users'
+            'email' => 'email|unique:users'
         ],
             [
-                'name.regex' => 'Imię nie może zawierać cyfr.',
-                'surname.regex' => 'Nazwisko nie może zawierać cyfr.',
+                'client_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
                 'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
             ]);
 
         $client = Client::create([
-            'name' => $request->input('user_name'),
+            'name' => $request->input('client_name'),
             'surname' => $request->input('surname'),
             'gender' => $request->input('gender'),
             'email' => $request->input('email'),
@@ -103,39 +102,33 @@ class AdminController extends Controller
     public function updateUser($id_client, $id_user, Request $request){
 
         $user = User::find($id_user);
-
-        $request->validate([
-            'name' => 'required|max:255',
-            'password' => 'min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'telephone' => 'nullable|max:9',
-            'email' => 'nullable|email|string|unique:users,email,'.$user->id_users.",id_users",
-        ]);
+        $client = Client::find($id_client);
 
         $request->validate([
             'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'client_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
             'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'telefon' => 'max:9',
-            'post_code' => 'regex:/^([0-9]{2})(-[0-9]{3})?$/i',
-            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:client',
-            'email' => 'nullable|email|string|unique:users,email,'.$user->id_users.",id_users",
+            'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'email' => 'nullable|email|unique:client,email,'.$client->id_client.",id_client",
         ],
             [
-                'name.regex' => 'Imię nie może zawierać cyfr.',
-                'surname.regex' => 'Nazwisko nie może zawierać cyfr.',
+                'name.regex' => 'Nazwa użytkownika nie może zawierać cyfr lub pozostać puste.',
+                'client_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
                 'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
             ]);
 
-        $client = Client::find($id_client);
         $client->name = $request->input('client_name');
         $client->surname = $request->input('surname');
         $client->gender = $request->input('gender');
         $client->email = $request->input('email');
-        $client->telephone = $request->input('telefon');
+        $client->telephone = $request->input('telephone');
         $client->city = $request->input('city');
         $client->street = $request->input('street');
         $client->street_number = $request->input('street_number');
@@ -149,7 +142,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect('/updateUserForm')->with('success', 'Dane zostały zaktualizowane.');
+        return redirect('/usersList')->with('success', 'Dane zostały zaktualizowane.');
 
     }
 
@@ -202,19 +195,30 @@ class AdminController extends Controller
     //tworzenie użytkownika i trenera
     public function createTrainer(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:users|max:255',
-            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'telephone' => 'nullable|max:9|unique:trainer',
-            'email' => 'nullable|email|string|unique:users',
 
-        ]);
+        $request->validate([
+            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
+            'telephone' => 'nullable|max:9|unique:trainer',
+            'email' => 'email|unique:users'
+        ],
+            [
+                'trainer_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
+                'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
+                'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
+                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
+            ]);
 
         $trainer = Trainer::create([
             'name' => $request->input('trainer_name'),
             'surname' => $request->input('surname'),
             'gender' => $request->input('gender'),
-            //'email' => $request->input('email'),
+            'email' => $request->input('email'),
             'telephone' => $request->input('telephone'),
             'city' => $request->input('city'),
             'street' => $request->input('street'),
@@ -233,18 +237,30 @@ class AdminController extends Controller
         return redirect('/trainersList')->with('success', 'Trener utworzony pomyślnie.');
     }
 
-    //aktualizowanie danych użytkownika
+    //aktualizowanie danych trenera
     public function updateTrainer($id_trainer, $id_user, Request $request)
     {
         $user = User::find($id_user);
+        $trainer = Trainer::find($id_trainer);
 
         $request->validate([
-            'name' => 'required|max:255',
-            'password' => 'min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'email' => 'nullable|email|string|unique:users,email,'.$user->id_users.",id_users",
-        ]);
+            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
+            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
+            'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
+            'telephone' => 'nullable|max:9|unique:client',
+            'email' => 'nullable|email|unique:trainer,email,'.$trainer->id_trainer.",id_trainer",
+        ],
+            [
+                'trainer_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
+                'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
+                'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
+                'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
+                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
+            ]);
 
-        $trainer = Trainer::find($id_trainer);
         $trainer->name = $request->input('trainer_name');
         $trainer->surname = $request->input('surname');
         $trainer->gender = $request->input('gender');
@@ -342,12 +358,10 @@ class AdminController extends Controller
     //tworzenie zajęcia grupowego
     public function createActivity(Request $request)
     {
+
         $request->validate([
-            'name' => 'required|string|unique:users|max:255',
-            'date_time_from' => 'required|unique:group_activities',
-            'date_time_to' => 'required|unique:group_activities',
+            'name' => 'required|string|unique:group_activities|max:255',
             'room_number' => 'required',
-            'max_participants' => 'required',
         ]);
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));
@@ -389,19 +403,18 @@ class AdminController extends Controller
 
     public function updateActivity($id_activity, Request $request)
     {
+        $activity = GroupActivity::find($id_activity);
+        $groupActivities = GroupActivity::all();
+
         $request->validate([
-            'name' => 'required|string|unique:users|max:255',
-            'date_time_from' => 'required|unique:group_activities',
-            'date_time_to' => 'required|unique:group_activities',
+            'name' => 'required|string|max:255|unique:group_activities,name,'.$activity->id_group_activities.",id_group_activities",
             'room_number' => 'required',
-            'max_participants' => 'required',
         ]);
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));
         $dateTo = Carbon::parse(\request()->get('date_time_to'));
-        $groupActivities = GroupActivity::all();
-        $diffInMin = $dateFrom->diffInMinutes($dateTo);
 
+        $diffInMin = $dateFrom->diffInMinutes($dateTo);
         $dateCheck = 0;
         foreach ($groupActivities as $groupActivity) {
             $acitivityDates = [
@@ -421,7 +434,6 @@ class AdminController extends Controller
         if ($dateCheck != 0) {
             return redirect('/activitiesList')->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
         } else {
-            $activity = GroupActivity::find($id_activity);
 
             $activity->name = $request->input('name');
             $activity->date_time_from = $dateFrom;

@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="add-user">
+        <a href="/admin" class="btn btn-primary">Powrót</a>
         <a href="/addTrainerForm" class="btn btn-primary">Dodaj trenera</a>
     </div>
     <div class="table-responsive">

@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+    <a href="/trainersList" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => 'AdminController@createTrainer', 'method' => 'POST']) !!}
 
     <h4>Dane do rejestracji</h4>
@@ -15,7 +15,7 @@
 
         <div class="form-group col-md-6">
             {{Form::label('title', 'Adres email')}}
-            {{Form::text('user_email','', ['class' => 'form-control', 'placeholder' => 'Adres email'])}}
+            {{Form::text('email','', ['class' => 'form-control', 'placeholder' => 'Adres email'])}}
         </div>
 
         <div class="form-group col-md-6">
@@ -29,7 +29,7 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             {{Form::label('title', 'Imię')}}
-            {{Form::text('client_name','', ['class' => 'form-control', 'placeholder' => 'Imię'])}}
+            {{Form::text('trainer_name','', ['class' => 'form-control', 'placeholder' => 'Imię'])}}
         </div>
 
         <div class="form-group col-md-6">
@@ -37,15 +37,15 @@
             {{Form::text('surname','', ['class' => 'form-control', 'placeholder' => 'Nazwisko'])}}
         </div>
 
-        <div class="form-group col-md-6">
-            {{Form::label('title', 'Email')}}
-            {{Form::email('email','', ['class' => 'form-control', 'placeholder' => 'Email'])}}
-        </div>
+{{--        <div class="form-group col-md-6">--}}
+{{--            {{Form::label('title', 'Email')}}--}}
+{{--            {{Form::email('email','', ['class' => 'form-control', 'placeholder' => 'Email'])}}--}}
+{{--        </div>--}}
 
-        <div class="form-group col-md-6">
-            {{Form::label('title', 'Telefon')}}
-            {{Form::number('telephone','', ['class' => 'form-control', 'placeholder' => 'Telefon'])}}
-        </div>
+{{--        <div class="form-group col-md-6">--}}
+{{--            {{Form::label('title', 'Telefon')}}--}}
+{{--            {{Form::number('telephone','', ['class' => 'form-control', 'placeholder' => 'Telefon'])}}--}}
+{{--        </div>--}}
     </div>
 
     <div class="form-row">
@@ -66,7 +66,7 @@
 
         <div class="form-group col-sm-2">
             {{Form::label('title', 'Kod pocztowy')}}
-            {{Form::number('post_code','', ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
+            {{Form::text('post_code','', ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
         </div>
 
         <div class="col-md-6">

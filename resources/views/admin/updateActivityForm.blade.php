@@ -17,7 +17,7 @@
             });
         });
     </script>
-
+    <a href="/activitiesList" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => ['AdminController@updateActivity', $activity->id_group_activities], 'method' => 'POST']) !!}
 
     <div class="form-row">

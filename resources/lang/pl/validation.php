@@ -104,7 +104,7 @@ return [
     'prohibited_if'        => 'Pole :attribute jest zabronione, gdy :other to :value.',
     'prohibited_unless'    => 'Pole :attribute jest zabronione, chyba że :other jest w :values.',
     'prohibits'            => 'Pole :attribute zabrania obecności :other.',
-    'regex'                => 'Hasło powinno zawierać conajmniej jedną literę, jedną cyfrę oraz znak specjalny.',
+    'regex'                => 'Hasło powinno zawierać conajmniej 8 znaków, w tym jedną literę, jedną cyfrę oraz znak specjalny.',
     'relatable'            => 'Ten :attribute może nie być powiązany z tym zasobem.',
     'required'             => 'Pole :attribute jest wymagane.',
     'required_if'          => 'Pole :attribute jest wymagane gdy :other ma wartość :value.',
