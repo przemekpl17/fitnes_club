@@ -13,6 +13,7 @@
                 <td>Imię i nazwisko</td>
                 <td>Płeć</td>
                 <td>Email</td>
+                <td>Telefon kom.</td>
                 <td>Adres</td>
                 <td>Opcje</td>
             </tr>
@@ -24,6 +25,7 @@
                     <td>{{$trainer->name}} {{$trainer->surname}}</td>
                     <td>{{$trainer->gender}}</td>
                     <td>{{$trainer->email}}</td>
+                    <td>+48 {{$trainer->telephone}}</td>
                     <td>@if(!empty($trainer->city && $trainer->street)){{$trainer->city}}, ul. {{$trainer->street}}@endif</td>
                     <td>
                         <a href="/updateTrainerForm/{{ $trainer->id_trainer }}" class="btn btn-primary">Edytuj</a>

@@ -31,13 +31,22 @@
     </script>
 
     <script>
+
         $(function() {
-            $( "#ticket_date_from" ).datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                minDate: new Date()
+            $(".datepicker").each(function(){
+                $(this).datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: new Date()
+                });
             });
+            // $( "#ticket_date_from" ).datepicker({
+            //     dateFormat: 'yy-mm-dd',
+            //     changeMonth: true,
+            //     changeYear: true,
+            //     minDate: new Date()
+            // });
         });
     </script>
 

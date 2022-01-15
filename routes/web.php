@@ -43,7 +43,8 @@ Route::middleware('clients:accessClients')->group(function() {
     Route::post('joinActivity', ['uses' => 'Clients_GroupActivitiesController@create']);
     Route::post('createTicket', ['uses' => 'TicketsController@create']);
     Route::post('getPersonalTraining', ['uses' => 'PersonalTrainingController@create']);
-    Route::post('deleteActivity/{id}', ['uses' => 'Clients_GroupActivitiesController@destroy']);
+    Route::post('deleteActivity/{id}', ['uses' => 'Clients_GroupActivitiesController@deleteUserActivity']);
+    Route::post('deletePersonalTraining/{id}', ['uses' => 'PersonalTrainingController@deleteUserPersonalTraining']);
 
     Route::get('/clientUpdate/{id}', 'ClientsController@clientUpdate');
     Route::get('/clientActivity', 'ClientsController@clientActivity');

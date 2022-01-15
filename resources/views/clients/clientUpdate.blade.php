@@ -47,7 +47,7 @@
             {{Form::text('post_code', $client->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-2">
             {{Form::label('title', 'Płeć')}}
             <div class="form-check">
                 <input type="radio" class="flat" name="gender"  value="m"

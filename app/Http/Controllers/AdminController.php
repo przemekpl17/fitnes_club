@@ -13,6 +13,7 @@ use App\Http\Middleware\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Jenssegers\Date\Date;
 
 class AdminController extends Controller
 {
@@ -31,7 +32,7 @@ class AdminController extends Controller
     public function usersList() {
         $users = DB::table('users')
             ->join('client', 'users.id_client', '=', 'client.id_client')
-            ->select('client.*')
+            ->select('client.*', 'users.*')
             ->get();
 
         return view('admin.usersList')->with('users', $users);
@@ -160,7 +161,7 @@ class AdminController extends Controller
 
         $trainers = DB::table('users')
             ->join('trainer', 'users.id_trainer', '=', 'trainer.id_trainer')
-            ->select('trainer.*')
+            ->select('trainer.*', 'users.*')
             ->get();
 
         return view('admin.trainersList')->with('trainers', $trainers);
@@ -250,7 +251,7 @@ class AdminController extends Controller
             'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
-            'telephone' => 'nullable|max:9|unique:client',
+            'telephone' => 'nullable|max:9|unique:trainer',
             'email' => 'nullable|email|unique:trainer,email,'.$trainer->id_trainer.",id_trainer",
         ],
             [
@@ -264,8 +265,8 @@ class AdminController extends Controller
         $trainer->name = $request->input('trainer_name');
         $trainer->surname = $request->input('surname');
         $trainer->gender = $request->input('gender');
-        //$trainer->email = $request->input('email');
         $trainer->city = $request->input('city');
+        $trainer->telephone = $request->input('telephone');
         $trainer->street = $request->input('street');
         $trainer->street_num = $request->input('street_number');
         $trainer->post_code = $request->input('post_code');
@@ -291,6 +292,8 @@ class AdminController extends Controller
     //okno z zajęciami grupowymi
     public function activitiesList() {
 
+        Date::setLocale('pl');
+
         if(Auth::check()) {
 
             $actualDay = Carbon::parse(Carbon::now());
@@ -306,7 +309,7 @@ class AdminController extends Controller
                 $numberOfDay = intval(Carbon::createFromDate($today->year, $today->month, $i)->format('d'));
 
                 $daysOfMonth[$weekCounter][] = [
-                    'name_of_day' => $nameOfDay,
+                    'name_of_day' => Date::parse($nameOfDay)->format('l'),
                     'number_of_day' => $numberOfDay,
                     'full_date' => $fullDate,
                     'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from','asc')->get()
@@ -407,8 +410,11 @@ class AdminController extends Controller
         $groupActivities = GroupActivity::all();
 
         $request->validate([
-            'name' => 'required|string|max:255|unique:group_activities,name,'.$activity->id_group_activities.",id_group_activities",
+            'name' => 'required|string|max:100|unique:group_activities,name,'.$activity->id_group_activities.",id_group_activities",
             'room_number' => 'required',
+        ], [
+            'name.unique' => 'Taka nazwa zajęcia grupowego już występuje. Wprowadź inną.',
+            'name.required' => 'Pole z nazwą zajęcia grupowego jest wymagane.'
         ]);
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));

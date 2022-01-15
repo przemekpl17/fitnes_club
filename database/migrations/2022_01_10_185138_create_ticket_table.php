@@ -15,12 +15,12 @@ class CreateTicketTable extends Migration
     {
         Schema::create('ticket', function (Blueprint $table) {
             $table->integer('id_ticket', true);
+            $table->integer('id_client_ticket')->nullable();
             $table->string('type', 45)->nullable();
             $table->dateTime('date_from')->nullable();
             $table->dateTime('date_to')->nullable();
             $table->string('description', 200)->nullable();
             $table->double('price')->nullable();
-            $table->integer('id_client_ticket')->nullable()->unique('id_client');
         });
     }
 

@@ -92,4 +92,36 @@ class PersonalTrainingController extends Controller
             }
         }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteUserPersonalTraining($id, Request $request)
+    {
+        $actualDay = Carbon::parse(Carbon::now());
+
+        $personalTraining = DB::table('personal_training')
+            ->join('trainer', 'personal_training.id_trainer', '=', 'trainer.id_trainer')
+            ->join('client', 'personal_training.id_client', '=', 'client.id_client')
+            ->select('trainer.*', 'personal_training.*', 'client.*')
+            ->get();
+
+        if($actualDay > $personalTraining[0]->date_time_from) {
+            return redirect('/clientActivity')->with('error', 'Ten trening już się odbył, nie możesz się z niego wypisać.');
+        } else {
+            //zwrócenie pieniędzy za trening na konto
+            $newAccountBallance = $personalTraining[0]->training_price + $personalTraining[0]->account_balance;
+            $client = Client::find($personalTraining[0]->id_client);
+            $client->account_balance = $newAccountBallance;
+
+            $client->save();
+
+            PersonalTraining::where('id_personal_training', $id)->delete();
+
+            return redirect('/clientActivity')->with('success', 'Wypisałeś się z treningu personalnego. Pieniądze zostały zwrócone na twoje konto.');
+        }
+    }
 }

@@ -4,7 +4,7 @@
     <div class="user-data-container">
 
         <div class="user-avatar">
-            <h3>@if(!empty($client->name || $client->surname)){{$client->name}} {{$client->surname}}@endif</h3>
+            <h4>@if(!empty($client->name || $client->surname)){{$client->name}} {{$client->surname}}@endif</h4>
             <p>@if(!empty($client->telephone)) tel: {{$client->telephone}}@endif</p>
             <p>email: {{$client->email}}</p>
             <p>@if(!empty($client->account_balance))Stan konta: {{$client->account_balance}} zł @endif</p>
@@ -12,7 +12,7 @@
         </div>
 
         <div class="user-calendar">
-            <h3>Dzienniczek aktywności</h3>
+            <h4>Dzienniczek aktywności</h4>
             <a href="/clientActivity">Sprawdź swoje aktywności</a>
         </div>
 
@@ -21,15 +21,15 @@
             @if(empty($ticket))
                 <p>Nie posiadasz karnetu.</p>
             @else
-                <h4>Rodzaj: {{$ticket->type}}</h4>
-                <p>ważny do: {{$ticket->date_to->format('d.m.Y')}}</p>
+                <p>Rodzaj: {{$ticket->type}}</p>
+                <p class="semi-bold">ważny do: {{$ticket->date_to->format('d.m.Y')}}</p>
             @endif
         </div>
 
-        <div class="user-trainer">
-            <h3>Mój trener</h3>
-            <h4>Imie trenera Nazwisko trenera</h4>
-            <p>Pozostało ci treningów personalnych: 5</p>
+{{--        <div class="user-trainer">--}}
+{{--            <h4>Mój trener</h4>--}}
+{{--            <p>Imie trenera Nazwisko trenera</p>--}}
+{{--            <p>Pozostało ci treningów personalnych: 5</p>--}}
         </div>
     </div>
 @endsection

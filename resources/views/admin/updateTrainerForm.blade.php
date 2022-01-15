@@ -6,17 +6,17 @@
     <h4>Dane rejestracji</h4>
     <div class="form-row">
         <div class="form-group col-md-6">
-            {{Form::label('title', 'Nowa nazwa użytkownika')}}
+            {{Form::label('title', 'Nazwa użytkownika')}}
             {{Form::text('name', $user[0]->name, ['class' => 'form-control', 'placeholder' => 'Nazwa użytkownika'])}}
         </div>
 
         <div class="form-group col-md-6">
-            {{Form::label('title', 'Nowy adres email')}}
+            {{Form::label('title', 'Adres email')}}
             {{Form::text('email', $user[0]->email, ['class' => 'form-control', 'placeholder' => 'Nowy adres email'])}}
         </div>
 
         <div class="form-group col-md-6">
-            {{Form::label('title', 'Nowe hasło')}}
+            {{Form::label('title', 'Hasło')}}
             {{Form::password('password', ['class' => 'form-control', 'placeholder' => 'Nowe hasło'])}}
         </div>
     </div>
@@ -25,7 +25,6 @@
 
     <div class="form-row">
         <div class="form-group col-md-6">
-
             {{Form::label('title', 'Imię')}}
             {{Form::text('trainer_name', $trainer->name, ['class' => 'form-control', 'placeholder' => 'Imię'])}}
         </div>
@@ -35,6 +34,10 @@
             {{Form::text('surname', $trainer->surname, ['class' => 'form-control', 'placeholder' => 'Nazwisko'])}}
         </div>
 
+        <div class="form-group col-md-6">
+            {{Form::label('title', 'Telefon')}}
+            {{Form::number('telephone', $trainer->telephone, ['class' => 'form-control', 'placeholder' => 'Telefon'])}}
+        </div>
     </div>
 
     <div class="form-row">

@@ -54,7 +54,6 @@
         </div>
     </div>
 
-
-    {{Form::submit('Utwórz', ['class' => 'btn btn-primary'])}}
+    {{Form::submit('Zapisz', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 @endsection

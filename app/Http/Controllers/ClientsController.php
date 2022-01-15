@@ -18,18 +18,18 @@ class ClientsController extends Controller
     /**
      * Display a listing of the resource.
      * Główny widok po zalogowaniu
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
         $user = Auth::user();
         $id_client = $user->id_client;
         $client = Client::find($id_client);
-
         $ticket = Ticket::where('id_client_ticket', $id_client)->first();
+
         return view ('clients.index')->with([
             'client' => $client,
-            'ticket' => $ticket,
+            'ticket' => $ticket
         ]);
     }
 

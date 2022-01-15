@@ -8,7 +8,7 @@
  */
 
 :root {
-  --blue: #3490dc;
+  --blue: #1664a7;
   --indigo: #6574cd;
   --purple: #9561e2;
   --pink: #f66d9b;
@@ -38,11 +38,11 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/**,*/
+/**::before,*/
+/**::after {*/
+/*  box-sizing: border-box;*/
+/*}*/
 
 html {
   font-family: sans-serif;
@@ -97,7 +97,7 @@ h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 abbr[title],
@@ -382,9 +382,10 @@ h6,
 .h4,
 .h5,
 .h6 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-weight: 500;
   line-height: 1.2;
+  padding-bottom: 0.25rem;
 }
 
 h1,
@@ -580,10 +581,16 @@ pre code {
 .container-sm {
   width: 100%;
   padding-top: 30px;
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.semi-bold {
+    font-weight: 600;
 }
 
 @media (min-width: 576px) {
@@ -616,7 +623,7 @@ pre code {
   .container-md,
   .container-sm,
   .container {
-    max-width: 1140px;
+    max-width: 961px;
   }
 }
 
@@ -2117,8 +2124,8 @@ pre code {
 
 .form-control {
   display: block;
-  width: 100%;
-  height: calc(1.6em + 0.75rem + 2px);
+  width: 90%;
+  height: calc(1.2em + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
   font-weight: 400;
@@ -2287,7 +2294,6 @@ textarea.form-control {
 .form-check {
   position: relative;
   display: block;
-  padding-left: 1.25rem;
 }
 
 .form-check-input {
@@ -2690,8 +2696,10 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #3490dc;
-  border-color: #3490dc;
+  background-color: #1664a7;
+  border-color: #1664a7;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .btn-primary:hover {
@@ -10994,7 +11002,7 @@ body {
   text-align: center;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 55px;
 }
 
 .links {
@@ -11025,7 +11033,6 @@ body {
 }
 
 .user-data-container {
-    max-width: 800px;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -11033,17 +11040,86 @@ body {
     justify-content: center;
     margin-top: 50px;
 }
-.user-avatar, .user-info, .user-calendar, .user-ticket, .user-trainer {
-    width: 30%;
+
+.user-avatar, .user-info, .user-calendar, .user-ticket, .user-trainer, .ticket-info {
+    width: 27%;
     min-height: 200px;
-    border: 2px solid #d78b00e0;
     padding: 20px;
     text-align: center;
+    background: #1664a7;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.user-calendar a,
+.user-avatar a {
+    color: #fff;
+    font-weight: 700;
+}
+
+.user-calendar a:hover,
+.user-avatar a:hover {
+    color: #fff;
 }
 
 .group-activities-content {
     display: flex;
+    border-radius: 6px;
 }
+
 .group-activities-content .group-activities-col {
-    width: 14%;
+    width: 14.28571428571429%;
+}
+
+.group-activities-col-header {
+    background: #d78b00e0;
+}
+
+.week-name,
+.week-date {
+    text-align: center;
+}
+
+.week-name {
+    font-weight: 600;
+}
+
+.group-activities-col-text {
+    background: #1664a7;
+    margin: 5px;
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.personal-training-col-text,
+.personal-trainer-info {
+    min-width: 27%;
+    background: #d78b00e0;
+    margin: 5px;
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.tickets-container,
+.personal-trainer-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: red;
+    color: #222222;
+    font-weight: bold;
+}
+
+.swiper {
+    border-radius: 6px;
+    border: 2px solid #d78b00e0;
 }

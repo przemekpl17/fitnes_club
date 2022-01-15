@@ -20,6 +20,7 @@ class CreateGroupActivitiesTable extends Migration
             $table->dateTime('date_time_to')->nullable();
             $table->integer('room_number')->nullable();
             $table->integer('max_participants')->nullable();
+            $table->integer('enrolled_participants')->nullable();
             $table->integer('id_trainer')->nullable()->index('fk_group_activities_trainer1_idx');
         });
     }

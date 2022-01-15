@@ -19,6 +19,7 @@ class CreateTrainerTable extends Migration
             $table->string('surname', 45)->nullable();
             $table->char('gender', 1)->nullable();
             $table->string('email', 55)->nullable();
+            $table->integer('telephone')->nullable();
             $table->string('city', 55)->nullable();
             $table->string('street', 55)->nullable();
             $table->string('street_num', 30)->nullable();
