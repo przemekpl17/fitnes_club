@@ -19,6 +19,7 @@ Route::middleware('admin:accessAdmin')->group(function() {
     Route::get('/ticketsList', 'AdminController@ticketsList');
     Route::get('/activitiesList', 'AdminController@activitiesList');
     Route::get('/trainersList', 'AdminController@trainersList');
+    Route::get('/articlesList', 'AdminController@articlesList');
     Route::get('/updateUserForm/{id}', 'AdminController@updateUserForm');
     Route::get('/deleteUser/{id}', 'AdminController@deleteUser');
     Route::get('/addUserForm', 'AdminController@addUserForm');
@@ -28,6 +29,10 @@ Route::middleware('admin:accessAdmin')->group(function() {
     Route::get('/updateTrainerForm/{id}', 'AdminController@updateTrainerForm');
     Route::get('/deleteTrainer/{id}', 'AdminController@deleteTrainer');
     Route::get('/addTrainerForm', 'AdminController@addTrainerForm');
+    Route::get('/addArticleForm', 'AdminController@addArticleForm');
+    Route::get('/deleteArticle/{id}', 'AdminController@deleteArticle');
+    Route::get('/updateArticleForm/{id}', 'AdminController@updateArticleForm');
+
 
     Route::post('createUser', ['uses' => 'AdminController@createUser']);
     Route::post('updateUser/{id_c}/{id_u}', ['uses' => 'AdminController@updateUser']);
@@ -35,6 +40,9 @@ Route::middleware('admin:accessAdmin')->group(function() {
     Route::post('updateTrainer/{id_t}/{id_u}', ['uses' => 'AdminController@updateTrainer']);
     Route::post('createActivity', ['uses' => 'AdminController@createActivity']);
     Route::post('updateActivity/{id}', ['uses' => 'AdminController@updateActivity']);
+    Route::post('createArticle', ['uses' => 'AdminController@createArticle']);
+    Route::post('updateArticle/{id}', ['uses' => 'AdminController@updateArticle']);
+
 });
 
 //clients routes

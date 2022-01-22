@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Images;
+use App\Article;
 use App\GroupActivity;
 use Carbon\Carbon;
 use App\Client;
@@ -10,9 +12,11 @@ use App\Trainer;
 use App\User;
 use DB;
 use App\Http\Middleware\Admin;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Jenssegers\Date\Date;
 
 class AdminController extends Controller
@@ -454,5 +458,88 @@ class AdminController extends Controller
         }
     }
 
+    //okno z tabelą artykułów
+    public function articlesList() {
+
+        $articles = DB::table('articles')->get();
+
+
+        return view('admin.articlesList')->with('articles', $articles);
+    }
+
+    //okno z formularzem dodania nowego artykułu
+    public function addArticleForm()
+    {
+        return view('admin.addArticleForm');
+    }
+
+    public function createArticle(Request $request) {
+
+        $request->validate([
+            'title' => 'required|string|unique:articles|max:255',
+            'description' => 'required|string',
+        ], [
+            'title.unique' => 'Taki tytuł artykułu już występuje. Wprowadź inny.',
+            'title.required' => 'Pole z tytułem artykułu jest wymagane.',
+            'description.required' => 'Pole z treścią artykułu jest wymagane.'
+            ]
+        );
+
+        $today = Carbon::today();
+        $article = new Article();
+
+        $article->title = $request->input('title');
+        $article->description = $request->input('description');
+        $article->add_date = $today;
+
+        $article->save();
+
+        if($request->hasFile('article_id')) {
+            $files = $request->file('article_id');
+            foreach ($files as $file) {
+                    $name = time().'-'.$file->getClientOriginalName();
+                    $name = str_replace(' ','-',$name);
+                    $file->move('articles-images', $name);
+                    $article->image()->create(['name' => $name]);
+                }
+        }
+
+        return redirect('/articlesList')->with('success', 'Artykuł został dodany.');
+    }
+
+    public function updateArticleForm($id_article) {
+
+        $article = Article::where('id_article', $id_article)->get();
+        $article_images = Images::where('article_id', $id_article)->get();
+        //dd($article);
+        return view('admin.updateArticleForm')->with([
+            'article' => $article,
+            'article_images' => $article_images,
+            'image_path' => public_path('articles-images').'/'
+        ]);
+    }
+
+    public function updateArticle($id_article, Request $request) {
+        dd();
+    }
+
+    //usuwanie artykułu wraz ze zdjęciami
+    public function deleteArticle($id)
+    {
+        //pobranie wszystkich zdjęć artykułu
+        $img = Images::where('article_id',$id)->get();
+
+        //pętla usuwająca zdjęcia z folderu
+        foreach ($img as $image) {
+            $image_path = public_path('articles-images').'/'.$image->name;
+            unlink($image_path);
+        }
+
+        //usunięcie artykułu i zdjęć z bazy danych
+        Article::where('id_article', $id)->delete();
+        Images::where('article_id', $id)->delete();
+
+        return redirect('/articlesList')->with('success', 'Artykuł usunięty.');
+    }
 
 }

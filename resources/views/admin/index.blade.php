@@ -27,5 +27,10 @@
             <h3>Karnety</h3>
             <a href="/ticketsList">Karnety zakupione w tym miesiącu</a>
         </div>
+
+        <div class="articles-operations">
+            <h3>Aktualności</h3>
+            <a href="/articlesList">Zarządzaj aktualnościami</a>
+        </div>
     </div>
 @endsection
