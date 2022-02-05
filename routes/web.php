@@ -32,7 +32,7 @@ Route::middleware('admin:accessAdmin')->group(function() {
     Route::get('/addArticleForm', 'AdminController@addArticleForm');
     Route::get('/deleteArticle/{id}', 'AdminController@deleteArticle');
     Route::get('/updateArticleForm/{id}', 'AdminController@updateArticleForm');
-
+    Route::get('/deleteImage/{id}', 'AdminController@deleteImage');
 
     Route::post('createUser', ['uses' => 'AdminController@createUser']);
     Route::post('updateUser/{id_c}/{id_u}', ['uses' => 'AdminController@updateUser']);
@@ -42,7 +42,6 @@ Route::middleware('admin:accessAdmin')->group(function() {
     Route::post('updateActivity/{id}', ['uses' => 'AdminController@updateActivity']);
     Route::post('createArticle', ['uses' => 'AdminController@createArticle']);
     Route::post('updateArticle/{id}', ['uses' => 'AdminController@updateArticle']);
-
 });
 
 //clients routes
@@ -57,6 +56,8 @@ Route::middleware('clients:accessClients')->group(function() {
     Route::get('/clientUpdate/{id}', 'ClientsController@clientUpdate');
     Route::get('/clientActivity', 'ClientsController@clientActivity');
     Route::get('/groupActivities', 'GroupsActivityController@index');
+    Route::get('/tickets', 'PagesController@tickets');
+    Route::get('/personalTraining', 'PagesController@personalTraining');
 });
 
 //trainers routes
@@ -68,9 +69,8 @@ Route::middleware('trainers:accessTrainers')->group(function() {
 
 //pages routes
 Route::get('/', 'PagesController@index');
-Route::get('/tickets', 'PagesController@tickets');
-Route::get('/personalTraining', 'PagesController@personalTraining');
-Route::get('/contact', 'PagesController@contact');
+Route::get('/article/{id}', 'PagesController@article');
+
 
 // typy kont i logout routes
 Auth::routes();

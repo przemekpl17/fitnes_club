@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="table-responsive">
+        <a href="/admin" class="btn btn-primary">Powrót</a>
         @if(!$tickets->isEmpty())
             <table class="table table-bordered table-striped">
                 <thead>

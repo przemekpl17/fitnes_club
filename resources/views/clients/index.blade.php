@@ -4,7 +4,7 @@
     <div class="user-data-container">
 
         <div class="user-avatar">
-            <h4>@if(!empty($client->name || $client->surname)){{$client->name}} {{$client->surname}}@endif</h4>
+            <h3>@if(!empty($client->name || $client->surname)){{$client->name}} {{$client->surname}}@endif</h3>
             <p>@if(!empty($client->telephone)) tel: {{$client->telephone}}@endif</p>
             <p>email: {{$client->email}}</p>
             <p>@if(!empty($client->account_balance))Stan konta: {{$client->account_balance}} zł @endif</p>
@@ -12,7 +12,7 @@
         </div>
 
         <div class="user-calendar">
-            <h4>Dzienniczek aktywności</h4>
+            <h3>Dzienniczek aktywności</h3>
             <a href="/clientActivity">Sprawdź swoje aktywności</a>
         </div>
 
@@ -24,12 +24,6 @@
                 <p>Rodzaj: {{$ticket->type}}</p>
                 <p class="semi-bold">ważny do: {{$ticket->date_to->format('d.m.Y')}}</p>
             @endif
-        </div>
-
-{{--        <div class="user-trainer">--}}
-{{--            <h4>Mój trener</h4>--}}
-{{--            <p>Imie trenera Nazwisko trenera</p>--}}
-{{--            <p>Pozostało ci treningów personalnych: 5</p>--}}
         </div>
     </div>
 @endsection

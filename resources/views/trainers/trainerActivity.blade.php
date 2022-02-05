@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
         <a href="/trainer" class="btn btn-primary">Powrót</a>
         <div class="group-activities-content">
             <div class="swiper mySwiper ">
@@ -10,8 +9,10 @@
                         <div class="swiper-slide group-activities-content init-slide='3'">
                             @foreach($dayOfMonth as $key => $day)
                                 <div class="group-activities-col">
-                                    <h4>{{$day['full_date']}}</h4>
-                                    <h4>{{$day['name_of_day']}}</h4>
+                                    <div class="group-activities-col-header">
+                                        <p class="week-date">{{$day['full_date']}}</p>
+                                        <p class="week-name">{{$day['name_of_day']}}</p>
+                                    </div>
                                     @foreach($day['activities'] as $activity)
                                         <div class="group-activities-col-text">
                                             <h5>Zajęcie grupowe</h5>
@@ -32,7 +33,8 @@
                         </div>
                     @endforeach
                 </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
             </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
 @endsection

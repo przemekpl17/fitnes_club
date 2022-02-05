@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
         <div class="group-activities-content">
              <div class="swiper mySwiper ">
                 <div class="swiper-wrapper ">
@@ -37,7 +36,7 @@
                     @endforeach
                 </div>
              </div>
+        </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
-    </div>
 @endsection

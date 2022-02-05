@@ -1,28 +1,55 @@
 @extends('layouts.app')
 
 @section('content')
+    <script src="https://cdn.tiny.cloud/1/t9v2ji60nrrp2j9a591rebjtz2fw58nzi7sug37dkh667c2h/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: 'textarea.tinymce-editor',
+            height: 500,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_css: '//www.tiny.cloud/css/codepen.min.css'
+        });
+    </script>
+
     <a href="/articlesList" class="btn btn-primary">Powrót</a>
     {!! Form::open(['action' => ['AdminController@updateArticle', $article[0]->id_article], 'method' => 'POST', 'files' => true]) !!}
 
     <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
             {{Form::label('title', 'Tytuł artykułu')}}
             {{Form::text('title',$article[0]->title, ['class' => 'form-control', 'placeholder' => 'tytuł'])}}
         </div>
 
-        <div class="form-group col-md-6">
-            <img src="../articles-images/{{$article_images[0]->name}}">
-            {{$image_path}}
+        <div class="form-article-images">
+            @foreach($article_images as $image)
+                <div class="article-image">
+                    <img src="../articles-images/{{$image->name}}">
+                    <a href="/deleteImage/{{$image->id_articles_images}}" class="btn btn-danger">Usuń</a>
+                </div>
+            @endforeach
+
+        </div>
+
+        <div class="form-group article-image-update col-md-12">
             {{Form::label('title', 'Dodaj zdjęcia')}}
             {{Form::file('article_id[]',['multiple' => 'multiple'], ['class' => 'form-control'])}}
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
             {{Form::label('title', 'Treść')}}
-            {{Form::textarea('description',$article[0]->description, ['class' => 'form-control', 'placeholder' => 'treść'])}}
+            {{Form::textarea('description',$article[0]->description, ['class' => 'form-control tinymce-editor'])}}
         </div>
     </div>
 
-    {{Form::submit('Utwórz', ['class' => 'btn btn-primary'])}}
+    {{Form::submit('Zapisz', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 @endsection

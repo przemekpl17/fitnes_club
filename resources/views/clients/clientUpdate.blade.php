@@ -42,12 +42,17 @@
             {{Form::number('street_number', $client->street_number, ['class' => 'form-control', 'placeholder' => 'Numer'])}}
         </div>
 
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-3">
             {{Form::label('title', 'Kod pocztowy')}}
             {{Form::text('post_code', $client->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
         </div>
 
-        <div class="col-md-2">
+        <div class="form-group col-sm-3">
+            {{Form::label('title', 'Stan konta')}}
+            {{Form::number('account_balance', $client->account_balance, ['class' => 'form-control', 'placeholder' => '0'])}}
+        </div>
+
+        <div class="col-md-12">
             {{Form::label('title', 'Płeć')}}
             <div class="form-check">
                 <input type="radio" class="flat" name="gender"  value="m"
@@ -60,10 +65,7 @@
                 <label class="form-check-label">Kobieta</label>
             </div>
         </div>
-        <div class="form-group col-sm-2">
-            {{Form::label('title', 'Stan konta')}}
-            {{Form::number('account_balance', $client->account_balance, ['class' => 'form-control', 'placeholder' => '0'])}}
-        </div>
+
     </div>
 
     {{Form::submit('Zapisz', ['class' => 'btn btn-primary'])}}

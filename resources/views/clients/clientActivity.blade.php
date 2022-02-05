@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
         <a href="/client" class="btn btn-primary">Powrót</a>
         <div class="group-activities-content">
             <div class="swiper mySwiper ">
@@ -43,6 +42,7 @@
                     @endforeach
                 </div>
             </div>
+        </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
 @endsection

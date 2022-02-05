@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Jenssegers\Date\Date;
 
 class AdminController extends Controller
@@ -147,7 +148,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect('/usersList')->with('success', 'Dane zostały zaktualizowane.');
+        return redirect('/updateUserForm/'.$id_user)->with('success', 'Dane zostały zaktualizowane.');
 
     }
 
@@ -283,7 +284,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect('/trainersList')->with('success', 'Dane zostały zaktualizowane.');
+        return redirect('/updateTrainerForm/'.$id_trainer)->with('success', 'Dane zostały zaktualizowane.');
     }
 
     //okno z tabelą karnetów
@@ -439,10 +440,10 @@ class AdminController extends Controller
             }
         }
         if ($diffInMin < 60) {
-            return redirect('/activitiesList')->with('error', 'Zajęcia muszą trwać minimum godzinę!');
+            return redirect('/updateActivityForm/'.$id_activity)->with('error', 'Zajęcia muszą trwać minimum godzinę!');
         }
         if ($dateCheck != 0) {
-            return redirect('/activitiesList')->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
+            return redirect('/updateActivityForm/'.$id_activity)->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
         } else {
 
             $activity->name = $request->input('name');
@@ -454,7 +455,7 @@ class AdminController extends Controller
 
             $activity->save();
 
-            return redirect('/activitiesList')->with('success', 'Zajęcie grupowe zaktualizowane.');
+            return redirect('/updateActivityForm/'.$id_activity)->with('success', 'Zajęcie grupowe zaktualizowane.');
         }
     }
 
@@ -511,7 +512,7 @@ class AdminController extends Controller
 
         $article = Article::where('id_article', $id_article)->get();
         $article_images = Images::where('article_id', $id_article)->get();
-        //dd($article);
+
         return view('admin.updateArticleForm')->with([
             'article' => $article,
             'article_images' => $article_images,
@@ -519,10 +520,36 @@ class AdminController extends Controller
         ]);
     }
 
+
     public function updateArticle($id_article, Request $request) {
-        dd();
+
+        $article = Article::find($id_article);
+
+        $article->title = $request->input('title');
+        $article->description = $request->input('description');
+
+        $article->save();
+
+        if($request->hasFile('article_id')) {
+            $files = $request->file('article_id');
+            foreach ($files as $file) {
+                $name = time().'-'.$file->getClientOriginalName();
+                $name = str_replace(' ','-',$name);
+                $file->move('articles-images', $name);
+                $article->image()->create(['name' => $name]);
+            }
+        }
+
+        return redirect('/updateArticleForm/'.$article->id_article)->with('success', 'Dane zaktualizowane.');
     }
 
+    public function deleteImage($id_image)
+    {
+        $image = Images::find($id_image);
+        Images::where('id_articles_images', $id_image)->delete();
+
+        return redirect('/updateArticleForm/'.$image->article_id)->with('success', 'Zdjęcie usunięte.');
+    }
     //usuwanie artykułu wraz ze zdjęciami
     public function deleteArticle($id)
     {

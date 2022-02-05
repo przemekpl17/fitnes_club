@@ -13,14 +13,16 @@
                         <div class="swiper-slide group-activities-content init-slide='3'">
                             @foreach($dayOfMonth as $key => $day)
                                 <div class="group-activities-col">
-                                    <h4>{{$day['full_date']}}</h4>
-                                    <h4>{{$day['name_of_day']}}</h4>
+                                    <div class="group-activities-col-header">
+                                        <p class="week-date">{{$day['full_date']}}</p>
+                                        <p class="week-name">{{$day['name_of_day']}}</p>
+                                    </div>
                                     @foreach($day['activities'] as $activity)
-                                        <div class="group-activities-col-text">
-                                            <h5>{{ $activity->name }}</h5>
-                                            <h5>{{$activity->date_time_from->format('H:i')}} - {{$activity->date_time_to->format('H:i')}}</h5>
+                                        <div class="activitiesList-col-text">
+                                            <h6>{{ $activity->name }}</h6>
+                                            <p>{{$activity->date_time_from->format('H:i')}} - {{$activity->date_time_to->format('H:i')}}</p>
                                             <p>Numer sali: {{$activity->room_number}}</p>
-                                            <p>Maksymalna liczba uczestników: {{$activity->max_participants}}</p>
+                                            <p>Liczba miejsc: @if(!$activity->enrolled_participants) 0 @else{{$activity->enrolled_participants}}@endif/{{$activity->max_participants}}</p>
                                             <a href="/updateActivityForm/{{$activity->id_group_activities}}" class="btn btn-primary">Edytuj</a>
                                             <a href="/deleteActivity/{{$activity->id_group_activities}}" class="btn btn-danger">Usuń</a>
                                         </div>
@@ -30,8 +32,8 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
         </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
 @endsection

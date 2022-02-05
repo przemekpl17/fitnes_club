@@ -14,11 +14,6 @@
                 {{Form::label('title', 'Adres email')}}
                 {{Form::text('email', $user[0]->email, ['class' => 'form-control', 'placeholder' => 'Nowy adres email'])}}
             </div>
-
-{{--            <div class="form-group col-md-6">--}}
-{{--                {{Form::label('title', 'Nowe hasło')}}--}}
-{{--                {{Form::password('password', ['class' => 'form-control', 'placeholder' => 'Nowe hasło'])}}--}}
-{{--            </div>--}}
         </div>
 
         <h4>Dane użytkownika</h4>
@@ -52,17 +47,17 @@
                 {{Form::number('street_number', $trainer->street_number, ['class' => 'form-control', 'placeholder' => 'Numer'])}}
             </div>
 
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-3">
                 {{Form::label('title', 'Kod pocztowy')}}
                 {{Form::number('post_code', $trainer->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
             </div>
 
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-3">
                 {{Form::label('title', 'Cena za trening personalny')}}
                 {{Form::number('training_price', $trainer->training_price, ['class' => 'form-control', 'placeholder' => ''])}}
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 {{Form::label('title', 'Płeć')}}
                 <div class="form-check">
                     <input type="radio" class="flat" name="gender"  value="m"
@@ -78,5 +73,4 @@
         </div>
     {{Form::submit('Zapisz', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
-
 @endsection

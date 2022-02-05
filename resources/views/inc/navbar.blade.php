@@ -31,7 +31,6 @@
             <a href="/tickets">kup karnet</a>
             <a href="/groupActivities">zajęcia grupowe</a>
             <a href="/personalTraining">trening personalny</a>
-            <a href="/contact">kontakt</a>
         </div>
     </div>
 </div>

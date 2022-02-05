@@ -45,7 +45,6 @@
 /*}*/
 
 html {
-  font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -70,9 +69,10 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #212529;
+  color: #161515;
   text-align: left;
-  background-color: #f8fafc;
+  background-color: #fff;
+  height: 100vh;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -146,7 +146,7 @@ blockquote {
 
 b,
 strong {
-  font-weight: bolder;
+  font-weight: 700;
 }
 
 small {
@@ -210,6 +210,8 @@ figure {
 }
 
 img {
+  object-fit: cover;
+  width: 100%;
   vertical-align: middle;
   border-style: none;
 }
@@ -583,6 +585,8 @@ pre code {
   padding-top: 30px;
   margin-right: auto;
   margin-left: auto;
+  min-height: 75vh;
+
 }
 
 .bold {
@@ -591,40 +595,6 @@ pre code {
 
 .semi-bold {
     font-weight: 600;
-}
-
-@media (min-width: 576px) {
-  .container-sm,
-  .container {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 961px;
-  }
 }
 
 .row {
@@ -1209,7 +1179,7 @@ pre code {
 
   .col-md-6 {
     flex: 0 0 50%;
-    max-width: 50%;
+    max-width: 48%;
   }
 
   .col-md-7 {
@@ -2125,7 +2095,7 @@ pre code {
 .form-control {
   display: block;
   width: 90%;
-  height: calc(1.2em + 2px);
+  /*height: calc(1.2em + 2px);*/
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
   font-weight: 400;
@@ -2905,6 +2875,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #e3342f;
   border-color: #e3342f;
+  min-width: 40px;
 }
 
 .btn-danger:hover {
@@ -10973,18 +10944,8 @@ a.text-dark:focus {
   }
 }
 
-html,
-body {
-  background-color: #fff;
-  color: #161515;
-  font-family: "Nunito", "Lato";
-  font-weight: 300;
-  height: 100vh;
-  margin: 0;
-}
-
 .flex-center {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: auto;
   align-items: center;
   display: flex;
@@ -11003,6 +10964,9 @@ body {
   display: flex;
   align-items: center;
   gap: 55px;
+  width: 961px;
+  width: 90%;
+  justify-content: space-between;
 }
 
 .links {
@@ -11012,7 +10976,7 @@ body {
 
 .links > a {
   color: #161515;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.1rem;
   text-decoration: none;
@@ -11021,8 +10985,8 @@ body {
 
 .auth a {
   color: #636b6f;
-  padding: 0 20px;
-  font-size: 13px;
+  padding: 0 10px;
+  font-size: 0.8rem;
   font-weight: 900;
   letter-spacing: 0.1rem;
   text-decoration: none;
@@ -11035,7 +10999,6 @@ body {
 .user-data-container {
     margin: auto;
     display: flex;
-    flex-wrap: wrap;
     gap: 30px;
     justify-content: center;
     margin-top: 50px;
@@ -11093,6 +11056,19 @@ body {
     border-radius: 6px;
 }
 
+.activitiesList-col-text a {
+    margin-top: 0;
+}
+
+.activitiesList-col-text {
+    background: #222222;
+    margin: 5px;
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+}
+
 .personal-training-col-text,
 .personal-trainer-info {
     min-width: 27%;
@@ -11106,10 +11082,10 @@ body {
 
 .tickets-container,
 .personal-trainer-container {
+    padding-top: 30px;
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .ui-widget-header {
@@ -11122,4 +11098,322 @@ body {
 .swiper {
     border-radius: 6px;
     border: 2px solid #d78b00e0;
+}
+
+.form-article-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.article-image {
+    max-width: 250px;
+}
+
+.article-image a{
+    margin-top: 10px;
+}
+
+.article-image-update {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-image:first-child {
+    padding-left: 0;
+}
+
+.article-content {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.article-img {
+    width: 25%;
+}
+
+.article-text {
+    width: 75%;
+}
+
+.article-title {
+    color: #d78b00e0;
+}
+
+.article-add-date {
+    align-self: end;
+}
+
+.article-short-desc {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+}
+
+.article-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+
+.article-short-desc a {
+    margin: 0;
+}
+
+.article-short-desc a {
+    align-self: flex-end;
+}
+
+.article-image img,
+.article-img img{
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.single-article-content {
+    display: flex;
+    gap: 30px;
+}
+
+.single-article-desc {
+    text-align: justify;
+}
+
+.form-images {
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+.group3 img {
+    padding-bottom: 10px;
+    width: 200px;
+    height: 200px;
+}
+#cboxCurrent { left:28px; }
+#cboxTitle { margin:0 60px; width:70%; }
+
+
+#cboxPrevious,
+#cboxNext
+{
+    background: #d78b00e0;
+    color: #fff;
+    border: none;
+    margin: 2px;
+}
+
+#cboxClose {
+    background: #c12f2f;
+    color: #fff;
+    border: none;
+    margin: 2px;
+}
+
+#cboxCurrent {
+    font-size: 15px;
+    margin-top: 2px;
+    padding: 0 3px;
+}
+
+.admin-data-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.admin-info,
+.users-operations,
+.trainers-operations,
+.activity-operations,
+.tickets-operations,
+.articles-operations,
+.trainer-info,
+.trainer-activity {
+    width: 26%;
+    border-radius: 6px;
+    border: 2px solid #d78b00e0;
+    padding: 20px;
+}
+
+.footer-content, .push {
+    background-color: #d78b00e0;
+}
+
+.footer-wrap {
+    max-width:961px;
+    width: 90%;
+    margin: auto;
+    display: flex;
+}
+
+.footer-row {
+    width: 25%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.footer-row .col-md-3:first-child {
+    padding-left: 0;
+}
+
+.footer-basic-info {
+    font-size: 1.3rem;
+    padding-top: 30px;
+}
+
+.footer-list {
+    padding: 0;
+}
+
+.footer-list li {
+    list-style: none;
+}
+
+.footer-list li a {
+    color: #1664a7;
+    padding-bottom: 0.25rem;
+}
+
+.trainer-data-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+
+@media (min-width: 400px) and (max-width: 576px) {
+    .container-sm,
+    .container {
+        max-width: 380px;
+        padding-top: 0;
+        padding-bottom: 30px;
+    }
+
+    .content {
+        gap: 15px;
+    }
+
+    .links {
+        gap: 20px;
+    }
+
+    .links > a,
+    .auth a {
+        font-size: 0.6rem;
+    }
+
+    .user-data-container {
+        flex-wrap: wrap;
+    }
+
+    .user-avatar,
+    .user-info,
+    .user-calendar,
+    .user-ticket,
+    .user-trainer,
+    .ticket-info {
+        width: 60%;
+        min-height: 150px;
+    }
+
+    .footer-wrap {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .footer-row {
+        width: 100%;
+    }
+
+    .tickets-container, .personal-trainer-container {
+        justify-content: center;
+        padding-bottom: 30px;
+    }
+
+    .flex-center {
+        margin-top: 50px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .container-sm,
+    .container {
+        max-width: 540px;
+    }
+
+    .links > a {
+        font-size: 0.8rem;
+    }
+
+    .user-avatar,
+    .user-info,
+    .user-calendar,
+    .user-ticket,
+    .user-trainer,
+    .ticket-info {
+        width: 39%;
+    }
+
+    .footer-row {
+        width: 50%;
+        padding: 0;
+        text-align: center;
+    }
+
+    .user-data-container {
+        flex-wrap: wrap;
+    }
+
+    .footer-wrap {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .tickets-container, .personal-trainer-container {
+        justify-content: center;
+        padding-bottom: 30px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 720px;
+    }
+
+    .tickets-container, .personal-trainer-container {
+        justify-content: center;
+        padding-bottom: 30px;
+    }
+
+    .ticket-info {
+        width: 25%;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+        max-width: 961px;
+    }
 }

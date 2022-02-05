@@ -48,7 +48,7 @@
             {{Form::number('max_participants','', ['class' => 'form-control', 'placeholder' => 'Maksymalna liczba uczestników'])}}
         </div>
 
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-3">
             {{Form::label('title', 'Trener prowadzący zajęcia')}}
             {{ Form::select('id_trainer',$trainers, null, ['class'=>'form-control']) }}
         </div>

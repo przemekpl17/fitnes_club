@@ -13,10 +13,14 @@
         <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     </head>
         <body>
-            @include('inc.navbar')
-            <div class="container">
-                @include('inc.messages')
-                @yield('content')
+            <div class="body-wrap">
+                @include('inc.navbar')
+                    <div class="container">
+                        @include('inc.messages')
+                        @yield('content')
+                        <div class="push"></div>
+                    </div>
+                @include('inc.footer')
             </div>
         </body>
 
@@ -41,12 +45,6 @@
                     minDate: new Date()
                 });
             });
-            // $( "#ticket_date_from" ).datepicker({
-            //     dateFormat: 'yy-mm-dd',
-            //     changeMonth: true,
-            //     changeYear: true,
-            //     minDate: new Date()
-            // });
         });
     </script>
 

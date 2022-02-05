@@ -46,12 +46,12 @@
             {{Form::text('city', $trainer->city, ['class' => 'form-control', 'placeholder' => 'Miasto'])}}
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             {{Form::label('title', 'Ulica')}}
             {{Form::text('street', $trainer->street, ['class' => 'form-control', 'placeholder' => 'Ulica'])}}
         </div>
 
-        <div class="form-group col-sm-2">
+        <div class="form-group col-xs-2">
             {{Form::label('title', 'Numer')}}
             {{Form::number('street_number', $trainer->street_num, ['class' => 'form-control', 'placeholder' => 'Numer'])}}
         </div>
@@ -61,7 +61,7 @@
             {{Form::text('post_code', $trainer->post_code, ['class' => 'form-control', 'placeholder' => 'Kod pocztowy'])}}
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
             {{Form::label('title', 'Płeć')}}
             <div class="form-check">
                 <input type="radio" class="flat" name="gender"  value="m"
