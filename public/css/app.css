@@ -585,7 +585,7 @@ pre code {
   padding-top: 30px;
   margin-right: auto;
   margin-left: auto;
-  min-height: 75vh;
+  min-height: 65vh;
 
 }
 
@@ -2269,7 +2269,6 @@ textarea.form-control {
 .form-check-input {
   position: absolute;
   margin-top: 0.3rem;
-  margin-left: -1.25rem;
 }
 
 .form-check-input[disabled] ~ .form-check-label,
@@ -2279,6 +2278,7 @@ textarea.form-control {
 
 .form-check-label {
   margin-bottom: 0;
+    margin-left: 20px;
 }
 
 .form-check-inline {
@@ -11338,6 +11338,14 @@ a.text-dark:focus {
 
     .flex-center {
         margin-top: 50px;
+    }
+
+    .card {
+        margin-top:30px;
+    }
+
+    .footer-basic-info {
+        font-size: 1rem;
     }
 }
 
