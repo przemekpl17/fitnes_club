@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
+
 use App\GroupActivity;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Jenssegers\Date\Date;
 
 class GroupsActivityController extends Controller
@@ -12,7 +16,7 @@ class GroupsActivityController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function index()
     {
@@ -24,7 +28,7 @@ class GroupsActivityController extends Controller
         $daysOfMonth = [];
         $weekCounter = 1;
 
-        for($i=1; $i < $today->daysInMonth + 1; ++$i) {
+        for ($i = 1; $i < $today->daysInMonth + 1; ++$i) {
             $rowDate = Carbon::createFromDate($today->year, $today->month, $i)->format('Y-m-d');
             $fullDate = Carbon::createFromDate($today->year, $today->month, $i)->format('d-m-Y');
             $nameOfDay = Carbon::createFromDate($today->year, $today->month, $i)->format('l');
@@ -34,14 +38,14 @@ class GroupsActivityController extends Controller
                 'name_of_day' => Date::parse($nameOfDay)->format('l'),
                 'number_of_day' => $numberOfDay,
                 'full_date' => $fullDate,
-                'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from','asc')->get()
+                'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from', 'asc')->get()
             ];
-            if($nameOfDay == 'Sunday') {
+            if ($nameOfDay == 'Sunday') {
                 $weekCounter++;
             }
         }
 
-        return view ('pages.groupActivities')->with([
+        return view('pages.groupActivities')->with([
             'id_client' => $id_client,
             'actualDay' => $actualDay,
             'actualWeek' => $actualWeek,

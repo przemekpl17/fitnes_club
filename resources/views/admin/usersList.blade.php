@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <td>Lp.</td>
-                    <td>Imię i nazwisko</td>
+                    <td>Nazwa użytkownika</td>
                     <td>Płeć</td>
                     <td>Email</td>
                     <td>Adres</td>
@@ -21,7 +21,7 @@
             @foreach($users as $user)
                 <tr>
                     <td>{{$loop->index+1}}.</td>
-                    <td>{{$user->name}} {{$user->surname}}</td>
+                    <td>{{$user->name}}</td>
                     <td>{{$user->gender}}</td>
                     <td>{{$user->email}}</td>
                     <td>@if(!empty($user->city && $user->street)){{$user->city}}, ul. {{$user->street}}@endif</td>

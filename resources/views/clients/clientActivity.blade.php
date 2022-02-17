@@ -31,7 +31,7 @@
                                                 <h6 class="border-bottom">Trening personalny</h6>
                                                 <p>{{ $personalTraining->name }} {{ $personalTraining->surname }}</p>
                                                 <p class="semi-bold">{{ \Carbon\Carbon::parse($personalTraining->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($personalTraining->date_time_to)->format('H:i') }}</p>
-                                                    {!! Form::open(['action' => ['PersonalTrainingController@deleteUserPersonalTraining', $personalTraining->id_personal_training], 'method' => 'POST']) !!}
+                                                    {!! Form::open(['action' => ['PersonalTrainingController@deleteUserPersonalTraining', $personalTraining->id_personal_training, $id_client], 'method' => 'POST']) !!}
                                                     {{Form::submit('Wypisz się', ['class' => 'btn btn-danger'])}}
                                                     {!! Form::close() !!}
                                             </div>

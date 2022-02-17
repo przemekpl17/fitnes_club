@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Images;
 use App\Article;
-use App\GroupActivity;
-use Carbon\Carbon;
 use App\Client;
+use App\GroupActivity;
+use App\Images;
 use App\Ticket;
 use App\Trainer;
 use App\User;
+use Carbon\Carbon;
 use DB;
-use App\Http\Middleware\Admin;
-use Faker\Provider\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
 use Jenssegers\Date\Date;
 
 class AdminController extends Controller
@@ -25,7 +22,7 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -34,7 +31,8 @@ class AdminController extends Controller
     }
 
     //okno z tabelą użytkowników
-    public function usersList() {
+    public function usersList()
+    {
         $users = DB::table('users')
             ->join('client', 'users.id_client', '=', 'client.id_client')
             ->select('client.*', 'users.*')
@@ -44,7 +42,8 @@ class AdminController extends Controller
     }
 
     //aktualizacja danych użytkownika
-    public function updateUserForm($id) {
+    public function updateUserForm($id)
+    {
         $client = Client::find($id);
         $user = User::where('id_client', $id)->get();
 
@@ -65,10 +64,10 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'client_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'client_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:client',
@@ -105,21 +104,22 @@ class AdminController extends Controller
     }
 
     //aktualizowanie danych użytkownika
-    public function updateUser($id_client, $id_user, Request $request){
+    public function updateUser($id_client, $id_user, Request $request)
+    {
 
         $user = User::find($id_user);
         $client = Client::find($id_client);
 
         $request->validate([
-            'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'client_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'client_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:client',
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'email' => 'nullable|email|unique:client,email,'.$client->id_client.",id_client",
+            'email' => 'nullable|email|unique:client,email,' . $client->id_client . ",id_client",
         ],
             [
                 'name.regex' => 'Nazwa użytkownika nie może zawierać cyfr lub pozostać puste.',
@@ -148,7 +148,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect('/updateUserForm/'.$id_user)->with('success', 'Dane zostały zaktualizowane.');
+        return redirect('/updateUserForm/' . $id_client)->with('success', 'Dane zostały zaktualizowane.');
 
     }
 
@@ -162,7 +162,8 @@ class AdminController extends Controller
     }
 
     //okno z tabelą trenerów
-    public function trainersList() {
+    public function trainersList()
+    {
 
         $trainers = DB::table('users')
             ->join('trainer', 'users.id_trainer', '=', 'trainer.id_trainer')
@@ -179,7 +180,8 @@ class AdminController extends Controller
     }
 
     //aktualizacja danych tenera
-    public function updateTrainerForm($id) {
+    public function updateTrainerForm($id)
+    {
         $trainer = Trainer::find($id);
         $user = User::where('id_trainer', $id)->get();
 
@@ -203,10 +205,10 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'trainer_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:trainer',
@@ -232,7 +234,7 @@ class AdminController extends Controller
             'post_code' => $request->input('post_code')
         ]);
 
-         User::create([
+        User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
@@ -250,10 +252,10 @@ class AdminController extends Controller
         $trainer = Trainer::find($id_trainer);
 
         $request->validate([
-            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'trainer_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:trainer',
@@ -264,7 +266,8 @@ class AdminController extends Controller
                 'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
-                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
+                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___',
+                'telephone' => 'Numer telefonu jest zajęty.'
             ]);
 
         $trainer->name = $request->input('trainer_name');
@@ -284,22 +287,24 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect('/updateTrainerForm/'.$id_trainer)->with('success', 'Dane zostały zaktualizowane.');
+        return redirect('/updateTrainerForm/' . $id_trainer)->with('success', 'Dane zostały zaktualizowane.');
     }
 
     //okno z tabelą karnetów
-    public function ticketsList() {
+    public function ticketsList()
+    {
 
         $tickets = Ticket::whereMonth('date_from', '=', Carbon::now())->get();
         return view('admin.ticketsList')->with('tickets', $tickets);
     }
 
     //okno z zajęciami grupowymi
-    public function activitiesList() {
+    public function activitiesList()
+    {
 
         Date::setLocale('pl');
 
-        if(Auth::check()) {
+        if (Auth::check()) {
 
             $actualDay = Carbon::parse(Carbon::now());
             $actualWeek = Carbon::now()->weekOfMonth;
@@ -307,7 +312,7 @@ class AdminController extends Controller
             $daysOfMonth = [];
             $weekCounter = 1;
 
-            for($i=1; $i < $today->daysInMonth + 1; ++$i) {
+            for ($i = 1; $i < $today->daysInMonth + 1; ++$i) {
                 $rowDate = Carbon::createFromDate($today->year, $today->month, $i)->format('Y-m-d');
                 $fullDate = Carbon::createFromDate($today->year, $today->month, $i)->format('d-m-Y');
                 $nameOfDay = Carbon::createFromDate($today->year, $today->month, $i)->format('l');
@@ -317,21 +322,21 @@ class AdminController extends Controller
                     'name_of_day' => Date::parse($nameOfDay)->format('l'),
                     'number_of_day' => $numberOfDay,
                     'full_date' => $fullDate,
-                    'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from','asc')->get()
+                    'activities' => GroupActivity::whereDate('date_time_from', $rowDate)->orderBy('date_time_from', 'asc')->get()
                 ];
-                if($nameOfDay == 'Sunday') {
+                if ($nameOfDay == 'Sunday') {
                     $weekCounter++;
                 }
 
             }
 
-            return view ('admin.activitiesList')->with([
+            return view('admin.activitiesList')->with([
                 'actualDay' => $actualDay,
                 'actualWeek' => $actualWeek,
                 'daysOfMonth' => $daysOfMonth
             ]);
 
-        }else {
+        } else {
             return redirect('/login')->with('error', 'Zaloguj się, aby dołączyć do zajęć grupowych.');
         }
     }
@@ -344,7 +349,8 @@ class AdminController extends Controller
     }
 
     //aktualizacja danych zajęcia grupowego
-    public function updateActivityForm($id) {
+    public function updateActivityForm($id)
+    {
         $activity = GroupActivity::find($id);
         $selected = GroupActivity::select('id_trainer')->where('id_group_activities', $id)->first();
         $trainers = Trainer::all()->pluck('full_name', 'id_trainer');
@@ -368,8 +374,11 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|string|unique:group_activities|max:255',
+            'name' => 'required|string|max:255',
             'room_number' => 'required',
+        ], [
+            'name' => 'Nazwa zajęcia grupowego jest wymagana.',
+            'room_number' => 'Numer sali jest wymagany.'
         ]);
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));
@@ -386,16 +395,16 @@ class AdminController extends Controller
             $acitivityDates['date_from'] = Carbon::parse($acitivityDates['date_from']);
             $acitivityDates['date_to'] = Carbon::parse($acitivityDates['date_to']);
 
-            if( $dateFrom < $acitivityDates['date_to']  && $dateFrom > $acitivityDates['date_from']->subHour() ) {
+            if ($dateFrom < $acitivityDates['date_to'] && $dateFrom > $acitivityDates['date_from']->subHour()) {
                 $dateCheck = 1;
             }
         }
-        if($diffInMin < 60){
+        if ($diffInMin < 60) {
             return redirect('/activitiesList')->with('error', 'Zajęcia muszą trwać minimum godzinę!');
         }
-        if($dateCheck != 0) {
+        if ($dateCheck != 0) {
             return redirect('/activitiesList')->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
-        }else {
+        } else {
             GroupActivity::create([
                 'name' => $request->input('name'),
                 'date_time_from' => $dateFrom,
@@ -415,7 +424,7 @@ class AdminController extends Controller
         $groupActivities = GroupActivity::all();
 
         $request->validate([
-            'name' => 'required|string|max:100|unique:group_activities,name,'.$activity->id_group_activities.",id_group_activities",
+            'name' => 'required|string|max:100|unique:group_activities,name,' . $activity->id_group_activities . ",id_group_activities",
             'room_number' => 'required',
         ], [
             'name.unique' => 'Taka nazwa zajęcia grupowego już występuje. Wprowadź inną.',
@@ -440,10 +449,10 @@ class AdminController extends Controller
             }
         }
         if ($diffInMin < 60) {
-            return redirect('/updateActivityForm/'.$id_activity)->with('error', 'Zajęcia muszą trwać minimum godzinę!');
+            return redirect('/updateActivityForm/' . $id_activity)->with('error', 'Zajęcia muszą trwać minimum godzinę!');
         }
         if ($dateCheck != 0) {
-            return redirect('/updateActivityForm/'.$id_activity)->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
+            return redirect('/updateActivityForm/' . $id_activity)->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
         } else {
 
             $activity->name = $request->input('name');
@@ -455,17 +464,25 @@ class AdminController extends Controller
 
             $activity->save();
 
-            return redirect('/updateActivityForm/'.$id_activity)->with('success', 'Zajęcie grupowe zaktualizowane.');
+            return redirect('/updateActivityForm/' . $id_activity)->with('success', 'Zajęcie grupowe zaktualizowane.');
         }
     }
 
     //okno z tabelą artykułów
-    public function articlesList() {
+    public function articlesList()
+    {
 
         $articles = DB::table('articles')->get();
 
+        foreach ($articles as $article)
+        {
+            $short_desc[] = substr($article->description, 0, 400);
+        }
 
-        return view('admin.articlesList')->with('articles', $articles);
+        return view('admin.articlesList')->with([
+            'articles' => $articles,
+            'short_desc' => $short_desc
+        ]);
     }
 
     //okno z formularzem dodania nowego artykułu
@@ -474,15 +491,16 @@ class AdminController extends Controller
         return view('admin.addArticleForm');
     }
 
-    public function createArticle(Request $request) {
+    public function createArticle(Request $request)
+    {
 
         $request->validate([
             'title' => 'required|string|unique:articles|max:255',
             'description' => 'required|string',
         ], [
-            'title.unique' => 'Taki tytuł artykułu już występuje. Wprowadź inny.',
-            'title.required' => 'Pole z tytułem artykułu jest wymagane.',
-            'description.required' => 'Pole z treścią artykułu jest wymagane.'
+                'title.unique' => 'Taki tytuł artykułu już występuje. Wprowadź inny.',
+                'title.required' => 'Pole z tytułem artykułu jest wymagane.',
+                'description.required' => 'Pole z treścią artykułu jest wymagane.'
             ]
         );
 
@@ -495,20 +513,21 @@ class AdminController extends Controller
 
         $article->save();
 
-        if($request->hasFile('article_id')) {
+        if ($request->hasFile('article_id')) {
             $files = $request->file('article_id');
             foreach ($files as $file) {
-                    $name = time().'-'.$file->getClientOriginalName();
-                    $name = str_replace(' ','-',$name);
-                    $file->move('articles-images', $name);
-                    $article->image()->create(['name' => $name]);
-                }
+                $name = time() . '-' . $file->getClientOriginalName();
+                $name = str_replace(' ', '-', $name);
+                $file->move('articles-images', $name);
+                $article->image()->create(['name' => $name]);
+            }
         }
 
         return redirect('/articlesList')->with('success', 'Artykuł został dodany.');
     }
 
-    public function updateArticleForm($id_article) {
+    public function updateArticleForm($id_article)
+    {
 
         $article = Article::where('id_article', $id_article)->get();
         $article_images = Images::where('article_id', $id_article)->get();
@@ -516,12 +535,13 @@ class AdminController extends Controller
         return view('admin.updateArticleForm')->with([
             'article' => $article,
             'article_images' => $article_images,
-            'image_path' => public_path('articles-images').'/'
+            'image_path' => public_path('articles-images') . '/'
         ]);
     }
 
 
-    public function updateArticle($id_article, Request $request) {
+    public function updateArticle($id_article, Request $request)
+    {
 
         $article = Article::find($id_article);
 
@@ -530,17 +550,17 @@ class AdminController extends Controller
 
         $article->save();
 
-        if($request->hasFile('article_id')) {
+        if ($request->hasFile('article_id')) {
             $files = $request->file('article_id');
             foreach ($files as $file) {
-                $name = time().'-'.$file->getClientOriginalName();
-                $name = str_replace(' ','-',$name);
+                $name = time() . '-' . $file->getClientOriginalName();
+                $name = str_replace(' ', '-', $name);
                 $file->move('articles-images', $name);
                 $article->image()->create(['name' => $name]);
             }
         }
 
-        return redirect('/updateArticleForm/'.$article->id_article)->with('success', 'Dane zaktualizowane.');
+        return redirect('/updateArticleForm/' . $article->id_article)->with('success', 'Dane zaktualizowane.');
     }
 
     public function deleteImage($id_image)
@@ -548,17 +568,18 @@ class AdminController extends Controller
         $image = Images::find($id_image);
         Images::where('id_articles_images', $id_image)->delete();
 
-        return redirect('/updateArticleForm/'.$image->article_id)->with('success', 'Zdjęcie usunięte.');
+        return redirect('/updateArticleForm/' . $image->article_id)->with('success', 'Zdjęcie usunięte.');
     }
+
     //usuwanie artykułu wraz ze zdjęciami
     public function deleteArticle($id)
     {
         //pobranie wszystkich zdjęć artykułu
-        $img = Images::where('article_id',$id)->get();
+        $img = Images::where('article_id', $id)->get();
 
         //pętla usuwająca zdjęcia z folderu
         foreach ($img as $image) {
-            $image_path = public_path('articles-images').'/'.$image->name;
+            $image_path = public_path('articles-images') . '/' . $image->name;
             unlink($image_path);
         }
 

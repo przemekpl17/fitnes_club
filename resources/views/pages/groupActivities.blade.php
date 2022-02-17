@@ -17,7 +17,7 @@
                                                 <h6>{{ $activity->name }}</h6>
                                                 <p class="semi-bold">{{$activity->date_time_from->format('H:i')}} - {{$activity->date_time_to->format('H:i')}}</p>
                                                 <p>Nr sali: {{$activity->room_number}}</p>
-                                                <p>Liczba miejsc: @if(!$activity->enrolled_participants) 0 @else{{$activity->enrolled_participants}}@endif/{{$activity->max_participants}}</p>
+                                                <p>Liczba uczestników:<br> @if(!$activity->enrolled_participants) 0 @else{{$activity->enrolled_participants}}@endif/{{$activity->max_participants}}</p>
                                                 {!! Form::open(['action' => 'Clients_GroupActivitiesController@create', 'method' => 'POST']) !!}
                                                 <input type="hidden" class="form-control" name="id_activity" value="{{$activity->id_group_activities}}">
                                                 <input type="hidden" class="form-control" name="id_client" value="{{$id_client}}">

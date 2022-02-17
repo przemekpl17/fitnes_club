@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\GroupActivity;
-use DB;
 use App\Clients_GroupActivities;
+use App\GroupActivity;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class Clients_GroupActivitiesController extends Controller
 {
     /**
      * Tworzenie rekordu w tabeli łączącej
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create(Request $request)
     {
@@ -44,7 +45,7 @@ class Clients_GroupActivitiesController extends Controller
             $trainigDates['date_from'] = Carbon::parse($trainigDates['date_from']);
             $trainigDates['date_to'] = Carbon::parse($trainigDates['date_to']);
 
-            if( $date_from < $trainigDates['date_to']  && $date_from > $trainigDates['date_from']->subHour() ) {
+            if ($date_from < $trainigDates['date_to'] && $date_from > $trainigDates['date_from']->subHour()) {
                 $temp2 = 1;
             }
         }
@@ -54,15 +55,15 @@ class Clients_GroupActivitiesController extends Controller
             ->where('id_client_ticket', '=', $request->get('id_client'))
             ->get();
 
-        if($temp2 !=0){
+        if ($temp2 != 0) {
             return redirect('/groupActivities')->with('error', 'masz trening w tym samym czasie, dołącz do innych.');
         }
-        if($actualTicket->count()){
-            if($inputDay < $actualDay){
+        if ($actualTicket->count()) {
+            if ($inputDay < $actualDay) {
                 return redirect('/groupActivities')->with('error', 'Te zajęcia już się odbyły, lub masz trening w tym samym czasie, dołącz do innych.');
-            }else if(!$exists->isEmpty()){
+            } else if (!$exists->isEmpty()) {
                 return redirect('/groupActivities')->with('error', 'Dołączyłeś już do  tych zajęć. Wybierz inne.');
-            }else if($max_participants > $enrolled_participants) {
+            } else if ($max_participants > $enrolled_participants) {
 
                 $client_group_activity = new Clients_GroupActivities();
                 $client_group_activity->id_client = $id_client;
@@ -71,16 +72,14 @@ class Clients_GroupActivitiesController extends Controller
                 $client_group_activity->save();
 
                 $groupActivities = GroupActivity::find($id_activity);
-                $groupActivities->enrolled_participants +=1;
+                $groupActivities->enrolled_participants += 1;
                 $groupActivities->save();
 
                 return redirect('/groupActivities')->with('success', 'Dołączyłeś do zajęć');
-            }
-            else
-            {
+            } else {
                 return redirect('/groupActivities')->with('error', 'Brak wolnych miejsc!');
             }
-        }else {
+        } else {
             return redirect('/groupActivities')->with('error', 'Aby dołączyć do zajęć grupowych musisz posiadać karnet!');
         }
     }
@@ -88,14 +87,14 @@ class Clients_GroupActivitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function deleteUserActivity($id, Request $request)
     {
         Clients_GroupActivities::where('id_client_group_activities', $id)->delete();
         $groupActivities = GroupActivity::find($request->get('id_activity'));
-        $groupActivities->enrolled_participants -=1;
+        $groupActivities->enrolled_participants -= 1;
         $groupActivities->save();
 
         return redirect('/clientActivity')->with('success', 'Wypisałeś się z zajęć.');

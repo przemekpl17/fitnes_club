@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\PersonalTraining;
 use App\Trainer;
 use App\User;
-use DB;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 use Jenssegers\Date\Date;
 
 class TrainersController extends Controller
@@ -17,7 +21,7 @@ class TrainersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function index()
     {
@@ -32,7 +36,8 @@ class TrainersController extends Controller
     }
 
     //aktualizacja danych tenera
-    public function updatePersonalTrainerForm($id) {
+    public function updatePersonalTrainerForm($id)
+    {
         $trainer = Trainer::find($id);
         $user = User::where('id_trainer', $id)->get();
 
@@ -50,11 +55,11 @@ class TrainersController extends Controller
 
         $request->validate([
             'password' => 'min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'email' => 'nullable|email|string|unique:users,email,'.$user->id_users.",id_users",
-            'trainer_name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'email' => 'nullable|email|string|unique:users,email,' . $user->id_users . ",id_users",
+            'trainer_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i'
         ],
             [
@@ -69,7 +74,6 @@ class TrainersController extends Controller
         $trainer->name = $request->input('trainer_name');
         $trainer->surname = $request->input('surname');
         $trainer->gender = $request->input('gender');
-        //$trainer->email = $request->input('email');
         $trainer->city = $request->input('city');
         $trainer->street = $request->input('street');
         $trainer->street_num = $request->input('street_number');
@@ -88,7 +92,8 @@ class TrainersController extends Controller
     }
 
     //Widok z kalendarzem aktywności trenera
-    public function trainerActivity(){
+    public function trainerActivity()
+    {
 
         Date::setLocale('pl');
 
@@ -100,7 +105,7 @@ class TrainersController extends Controller
         $daysOfMonth = [];
         $weekCounter = 1;
 
-        for($i=1; $i < $today->daysInMonth + 1; ++$i) {
+        for ($i = 1; $i < $today->daysInMonth + 1; ++$i) {
             $rowDate = Carbon::createFromDate($today->year, $today->month, $i)->format('Y-m-d');
             $fullDate = Carbon::createFromDate($today->year, $today->month, $i)->format('d-m-Y');
             $nameOfDay = Carbon::createFromDate($today->year, $today->month, $i)->format('l');
@@ -112,19 +117,19 @@ class TrainersController extends Controller
                 'full_date' => $fullDate,
                 'personal_training' => PersonalTraining::whereDate('date_time_from', $rowDate)
                     ->where('id_trainer', $id_trainer)
-                    ->orderBy('date_time_from','asc')->get(),
+                    ->orderBy('date_time_from', 'asc')->get(),
                 'activities' => DB::table('group_activities')
                     ->where('id_trainer', $id_trainer)
                     ->whereDate('date_time_from', $rowDate)
                     ->get()
             ];
 
-            if($nameOfDay == 'Sunday') {
+            if ($nameOfDay == 'Sunday') {
                 $weekCounter++;
             }
         }
 
-        return view ('trainers.trainerActivity')->with([
+        return view('trainers.trainerActivity')->with([
             'id_trainer' => $id_trainer,
             'actualDay' => $actualDay,
             'actualWeek' => $actualWeek,

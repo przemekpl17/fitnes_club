@@ -1,30 +1,31 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Images;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+
 use App\Article;
 use App\Client;
-use App\Trainer;
+use App\Images;
 use App\TicketsInfo;
-use Illuminate\Http\Request;
+use App\Trainer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $articles = Article::all();
 
         foreach ($articles as $article) {
             $article_with_img[] = DB::table('articles_images')
-                ->join('articles','id_article', '=' , 'article_id')
+                ->join('articles', 'id_article', '=', 'article_id')
                 ->where('article_id', $article->id_article)
                 ->get();
 
-            $short_desc[]= substr($article->description,0, 400);
-            $article_date[] =  Carbon::parse($article->add_date)->format('d.m.Y');
+            $short_desc[] = substr($article->description, 0, 400);
+            $article_date[] = Carbon::parse($article->add_date)->format('d.m.Y');
 
         }
 
@@ -35,7 +36,8 @@ class PagesController extends Controller
         ]);
     }
 
-    public function tickets() {
+    public function tickets()
+    {
 
         $id_client = Auth::user()->id_client;
         $client_info = Client::find($id_client);
@@ -46,7 +48,8 @@ class PagesController extends Controller
         ]);
     }
 
-    public function personalTraining() {
+    public function personalTraining()
+    {
 
         $id_client = Auth::user()->id_client;
         $client_info = Client::find($id_client);
@@ -57,11 +60,13 @@ class PagesController extends Controller
         ]);
     }
 
-    public function contact(){
+    public function contact()
+    {
         return view('pages.contact');
     }
 
-    public function article($id_article) {
+    public function article($id_article)
+    {
 
         $article = Article::where('id_article', $id_article)->get();
         $article_images = Images::where('article_id', $id_article)->get();

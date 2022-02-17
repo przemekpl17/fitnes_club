@@ -16,11 +16,11 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($articles as $article)
+            @foreach($articles as $key => $article)
                 <tr>
                     <td>{{$loop->index+1}}.</td>
                     <td>{{$article->title}}</td>
-                    <td>{{$article->description}}</td>
+                    <td>{{$short_desc[$key]}}..</td>
                     <td>
                         <a href="/updateArticleForm/{{ $article->id_article }}" class="btn btn-primary">Edytuj</a>
                         <a href="/deleteArticle/{{ $article->id_article }}" class="btn btn-danger">Usuń</a>

@@ -1,24 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-use Jenssegers\Date\Date;
-use App\GroupActivity;
+
+use App\Client;
 use App\PersonalTraining;
 use App\Ticket;
-use App\Trainer;
-use App\User;
-use DB;
-use App\Client;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Jenssegers\Date\Date;
 
 class ClientsController extends Controller
 {
     /**
      * Display a listing of the resource.
      * Główny widok po zalogowaniu
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function index()
     {
@@ -27,14 +29,15 @@ class ClientsController extends Controller
         $client = Client::find($id_client);
         $ticket = Ticket::where('id_client_ticket', $id_client)->first();
 
-        return view ('clients.index')->with([
+        return view('clients.index')->with([
             'client' => $client,
             'ticket' => $ticket
         ]);
     }
 
     //Widok z kalendarzem aktywności użytkownika
-    public function clientActivity(){
+    public function clientActivity()
+    {
 
         Date::setLocale('pl');
 
@@ -45,7 +48,7 @@ class ClientsController extends Controller
         $daysOfMonth = [];
         $weekCounter = 1;
 
-        for($i=1; $i < $today->daysInMonth + 1; ++$i) {
+        for ($i = 1; $i < $today->daysInMonth + 1; ++$i) {
             $rowDate = Carbon::createFromDate($today->year, $today->month, $i)->format('Y-m-d');
             $fullDate = Carbon::createFromDate($today->year, $today->month, $i)->format('d-m-Y');
             $nameOfDay = Carbon::createFromDate($today->year, $today->month, $i)->format('l');
@@ -59,7 +62,7 @@ class ClientsController extends Controller
                 'personal_training' => PersonalTraining::whereDate('date_time_from', $rowDate)
                     ->leftJoin('trainer', 'personal_training.id_trainer', '=', 'trainer.id_trainer')
                     ->where('id_client', $id_client)
-                    ->orderBy('date_time_from','asc')->get(),
+                    ->orderBy('date_time_from', 'asc')->get(),
                 'activities' => DB::table('client_group_activities')
                     ->join('group_activities', 'client_group_activities.id_group_activities', '=', 'group_activities.id_group_activities')
                     ->select('client_group_activities.*', 'group_activities.*')
@@ -68,12 +71,12 @@ class ClientsController extends Controller
                     ->get()
             ];
 
-            if($nameOfDay == 'Sunday') {
+            if ($nameOfDay == 'Sunday') {
                 $weekCounter++;
             }
         }
 
-        return view ('clients.clientActivity')->with([
+        return view('clients.clientActivity')->with([
             'id_client' => $id_client,
             'actualDay' => $actualDay,
             'actualWeek' => $actualWeek,
@@ -83,7 +86,8 @@ class ClientsController extends Controller
     }
 
     //aktualizacja danych użytkownika
-    public function clientUpdate($id_client){
+    public function clientUpdate($id_client)
+    {
 
         $client = Client::find($id_client);
         return view('clients.clientUpdate')->with([
@@ -94,8 +98,8 @@ class ClientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -118,22 +122,22 @@ class ClientsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
 
         $client = Client::find($id);
         $request->validate([
-            'name' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'surname' => 'regex:/^[a-zA-Z]+$/u|max:60',
-            'city' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
-            'street' => 'nullable|regex:/^[a-zA-Z]+$/u|max:60',
+            'name' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
+            'city' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
+            'street' => 'nullable|regex:/^[\s\p{L}]+$/u|max:60',
             'telefon' => 'max:9',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
-            'email' => 'nullable|email|unique:client,email,'.$client->id_client.",id_client",
+            'email' => 'nullable|email|unique:client,email,' . $client->id_client . ",id_client",
         ],
             [
                 'name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
@@ -141,7 +145,7 @@ class ClientsController extends Controller
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr lub pozostać puste.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr lub pozostać puste.',
                 'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
-        ]);
+            ]);
 
         $client->name = $request->input('name');
         $client->surname = $request->input('surname');

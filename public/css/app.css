@@ -581,12 +581,11 @@ pre code {
 .container-lg,
 .container-md,
 .container-sm {
-  width: 100%;
+  width: 90%;
   padding-top: 30px;
   margin-right: auto;
   margin-left: auto;
-  min-height: 65vh;
-
+  min-height: 75vh;
 }
 
 .bold {
@@ -10983,6 +10982,10 @@ a.text-dark:focus {
   text-transform: uppercase;
 }
 
+.links a:hover {
+    color: #d78b00e0;
+}
+
 .auth a {
   color: #636b6f;
   padding: 0 10px;
@@ -11002,6 +11005,7 @@ a.text-dark:focus {
     gap: 30px;
     justify-content: center;
     margin-top: 50px;
+    padding-bottom: 30px;
 }
 
 .user-avatar, .user-info, .user-calendar, .user-ticket, .user-trainer, .ticket-info {
@@ -11028,6 +11032,7 @@ a.text-dark:focus {
 .group-activities-content {
     display: flex;
     border-radius: 6px;
+    padding-bottom: 30px;
 }
 
 .group-activities-content .group-activities-col {
@@ -11072,7 +11077,7 @@ a.text-dark:focus {
 .personal-training-col-text,
 .personal-trainer-info {
     min-width: 27%;
-    background: #d78b00e0;
+    background: #222222;
     margin: 5px;
     padding: 12px;
     text-align: center;
@@ -11086,6 +11091,7 @@ a.text-dark:focus {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
+    padding-bottom: 30px;
 }
 
 .ui-widget-header {
@@ -11129,6 +11135,8 @@ a.text-dark:focus {
 .article-content {
     display: flex;
     gap: 30px;
+    width: 90%;
+    margin: auto;
     margin-bottom: 50px;
 }
 
@@ -11178,6 +11186,12 @@ a.text-dark:focus {
 .single-article-content {
     display: flex;
     gap: 30px;
+    width: 100%;
+    margin: auto;
+}
+
+.single-article-title h3 {
+    color: #d78b00e0;
 }
 
 .single-article-desc {
@@ -11225,6 +11239,7 @@ a.text-dark:focus {
     flex-wrap: wrap;
     gap: 30px;
     justify-content: space-between;
+    margin: auto;
 }
 
 .admin-info,
@@ -11235,7 +11250,7 @@ a.text-dark:focus {
 .articles-operations,
 .trainer-info,
 .trainer-activity {
-    width: 26%;
+    width: 25%;
     border-radius: 6px;
     border: 2px solid #d78b00e0;
     padding: 20px;
@@ -11284,14 +11299,24 @@ a.text-dark:focus {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
 }
 
 
-@media (min-width: 400px) and (max-width: 576px) {
+@media (min-width: 360px) and (max-width: 576px) {
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
     .container-sm,
     .container {
         max-width: 380px;
-        padding-top: 0;
         padding-bottom: 30px;
     }
 
@@ -11333,7 +11358,6 @@ a.text-dark:focus {
 
     .tickets-container, .personal-trainer-container {
         justify-content: center;
-        padding-bottom: 30px;
     }
 
     .flex-center {
@@ -11346,7 +11370,94 @@ a.text-dark:focus {
 
     .footer-basic-info {
         font-size: 1rem;
+        padding-top: 15px;
     }
+
+    .article-text {
+       width: 90%;
+    }
+
+    .article-content {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .article-img img{
+        display: none;
+    }
+
+    .article-add-date {
+        text-align: left;
+    }
+
+    .single-article-content {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .group3 img {
+        width: 100%;
+        height: 260px;
+    }
+
+    .admin-info,
+    .users-operations,
+    .trainers-operations,
+    .activity-operations,
+    .tickets-operations,
+    .articles-operations,
+    .trainer-info,
+    .trainer-activity {
+        width: 32%;
+    }
+
+    .tickets-container, .personal-trainer-container {
+        justify-content: center;
+    }
+
+    .group-activities-content {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .group-activities-content .group-activities-col {
+        width: 43%;
+        padding: 10px;
+    }
+
+    .group-activities-col-text {
+        margin: 5px 0 0 0;
+    }
+
+    .swiper {
+        border: none;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none;
+    }
+    .trainer-activity h3,
+    .trainer-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .btn-primary {
+        margin-left: 5%;
+    }
+
+    .cboxPhoto {
+        max-width: 300px;
+        max-height: 300px;
+        margin-top: 25%;
+        margin-left: 12%;
+    }
+
+    #cboxContent {
+        display: none;
+    }
+
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -11385,7 +11496,39 @@ a.text-dark:focus {
 
     .tickets-container, .personal-trainer-container {
         justify-content: center;
-        padding-bottom: 30px;
+    }
+
+    .admin-info,
+    .users-operations,
+    .trainers-operations,
+    .activity-operations,
+    .tickets-operations,
+    .articles-operations,
+    .trainer-info,
+    .trainer-activity {
+        width: 37%;
+    }
+
+    .group-activities-content {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .group-activities-content .group-activities-col {
+        width: 45%;
+        padding: 10px;
+    }
+
+    .group-activities-col-text {
+        margin: 5px 0 0 0;
+    }
+
+    .swiper {
+        border: none;
+    }
+
+    .activitiesList-col-text .btn-primary {
+        margin-bottom: 0;
     }
 }
 
@@ -11398,13 +11541,31 @@ a.text-dark:focus {
 
     .tickets-container, .personal-trainer-container {
         justify-content: center;
-        padding-bottom: 30px;
     }
 
     .ticket-info {
         width: 25%;
     }
 
+    .admin-info,
+    .users-operations,
+    .trainers-operations,
+    .activity-operations,
+    .tickets-operations,
+    .articles-operations,
+    .trainer-info,
+    .trainer-activity {
+        width: 40%;
+    }
+
+    .btn {
+        padding: 0.375rem 0.55rem;
+        font-size: 0.7rem;
+    }
+
+    .group-activities-col-text h5 {
+        font-size: 0.9rem;
+    }
 }
 
 @media (min-width: 992px) {
