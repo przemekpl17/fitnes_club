@@ -26,6 +26,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        Ticket::where('date_to', '<', Carbon::now())->delete();
         $admin = Auth::user();
         return view('admin.index')->with('admin', $admin);
     }
@@ -62,7 +63,6 @@ class AdminController extends Controller
     //tworzenie użytkownika i klienta
     public function createUser(Request $request)
     {
-
         $request->validate([
             'client_name' => 'regex:/^[\s\p{L}]+$/u|max:60',
             'surname' => 'regex:/^[\s\p{L}]+$/u|max:60',
@@ -374,11 +374,20 @@ class AdminController extends Controller
     {
 
         $request->validate([
+            'date_time_from' => 'required',
+            'date_time_to' => 'required',
+            'max_participants' => 'required',
+            'id_trainer' => 'required',
             'name' => 'required|string|max:255',
             'room_number' => 'required',
+
         ], [
-            'name' => 'Nazwa zajęcia grupowego jest wymagana.',
-            'room_number' => 'Numer sali jest wymagany.'
+            'name.required' => 'Pole "Nazwa zajęcia grupowego" jest wymagane.',
+            'room_number.required' => 'Pole "Numer sali" jest wymagane.',
+            'date_time_from.required' => 'Pole "Data rozpoczęcia" jest wymagane.',
+            'date_time_to.required' => 'Pole "Data zakończenia" jest wymagane.',
+            'max_participants.required' => 'Pole "Maksymalna liczba uczestników" jest wymagane.',
+            'id_trainer.required' => 'Przydzielenie trenera do zajęcia grupowego jest wymagane.'
         ]);
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));

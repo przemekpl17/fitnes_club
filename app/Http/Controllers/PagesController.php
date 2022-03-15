@@ -6,6 +6,7 @@ use App\Article;
 use App\Client;
 use App\Images;
 use App\TicketsInfo;
+use App\Ticket;
 use App\Trainer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,8 @@ class PagesController extends Controller
         $id_client = Auth::user()->id_client;
         $client_info = Client::find($id_client);
         $tickets = TicketsInfo::all();
+//        $test = Ticket::where('date_to', '<', Carbon::now())->get();
+//    dd($test);
         return view('pages.tickets')->with([
             'tickets' => $tickets,
             'client_info' => $client_info,

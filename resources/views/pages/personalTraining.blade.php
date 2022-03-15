@@ -42,7 +42,7 @@
                     <input type="hidden" class="form-control" name="id_trainer" value="{{$trainer->id_trainer}}">
                     <input type="hidden" class="form-control" name="training_price" value="{{$trainer->training_price}}">
                     <input type="hidden" class="form-control" name="account_balance" value="{{$client_info->account_balance}}">
-                    {{Form::submit('Zapisz się', ['class' => 'btn btn-primary'])}}
+                    {{Form::submit('Kup trening', ['class' => 'btn btn-primary'])}}
                     {!! Form::close() !!}
                 </div>
             @endforeach

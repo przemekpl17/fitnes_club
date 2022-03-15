@@ -2102,7 +2102,7 @@ pre code {
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid #222222;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -11061,6 +11061,15 @@ a.text-dark:focus {
     border-radius: 6px;
 }
 
+.group-activities-col-text {
+    background: #1664a7;
+    margin: 5px;
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+}
+
 .activitiesList-col-text a {
     margin-top: 0;
 }
@@ -11203,35 +11212,10 @@ a.text-dark:focus {
     display: flex;
 }
 
-.group3 img {
-    padding-bottom: 10px;
+.lightbox-img img {
+    padding-bottom: 20px;
     width: 200px;
     height: 200px;
-}
-#cboxCurrent { left:28px; }
-#cboxTitle { margin:0 60px; width:70%; }
-
-
-#cboxPrevious,
-#cboxNext
-{
-    background: #d78b00e0;
-    color: #fff;
-    border: none;
-    margin: 2px;
-}
-
-#cboxClose {
-    background: #c12f2f;
-    color: #fff;
-    border: none;
-    margin: 2px;
-}
-
-#cboxCurrent {
-    font-size: 15px;
-    margin-top: 2px;
-    padding: 0 3px;
 }
 
 .admin-data-container {
@@ -11562,7 +11546,7 @@ a.text-dark:focus {
         padding: 0.375rem 0.55rem;
         font-size: 0.7rem;
     }
-
+    .personal-training-col-text h5,
     .group-activities-col-text h5 {
         font-size: 0.9rem;
     }

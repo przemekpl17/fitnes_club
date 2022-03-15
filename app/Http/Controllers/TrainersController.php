@@ -121,6 +121,7 @@ class TrainersController extends Controller
                 'activities' => DB::table('group_activities')
                     ->where('id_trainer', $id_trainer)
                     ->whereDate('date_time_from', $rowDate)
+                    ->orderBy('date_time_from', 'asc')
                     ->get()
             ];
 

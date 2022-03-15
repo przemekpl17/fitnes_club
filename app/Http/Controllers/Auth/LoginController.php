@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -41,7 +41,8 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        switch (Auth::user()->account_type) {
+        switch (Auth::user()->account_type)
+        {
             case 0:
                 $this->redirectTo = '/client';
                 return $this->redirectTo;

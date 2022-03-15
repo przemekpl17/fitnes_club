@@ -11,7 +11,7 @@
 
         <div class="trainer-activity">
             <h3>Grafik zajęć</h3>
-            <a href="/trainerActivity">Sprawdź</a>
+            <a href="/trainerActivity">Sprawdź grafik na aktualny miesiąc</a>
         </div>
 
     </div>

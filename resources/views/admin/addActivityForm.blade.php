@@ -39,8 +39,8 @@
 
     <div class="form-row">
         <div class="form-group col-md-6">
-            {{Form::label('title', 'Numer pokoju')}}
-            {{Form::number('room_number','', ['class' => 'form-control', 'placeholder' => 'Numer pokoju'])}}
+            {{Form::label('title', 'Numer sali')}}
+            {{Form::number('room_number','', ['class' => 'form-control', 'placeholder' => 'Numer sali'])}}
         </div>
 
         <div class="form-group col-md-6">

@@ -22,7 +22,7 @@
                                         </div>
                                     @endforeach
                                     @foreach($day['personal_training'] as $personal_training)
-                                        <div class="group-activities-col-text">
+                                        <div class="personal-training-col-text">
                                             <h5>Trening personalny</h5>
                                             <h5>{{ $personal_training->name }} {{ $personal_training->surname }}</h5>
                                             <h5>{{ \Carbon\Carbon::parse($personal_training->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($personal_training->date_time_to)->format('H:i') }}</h5>
