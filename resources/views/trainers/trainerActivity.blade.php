@@ -15,17 +15,17 @@
                                     </div>
                                     @foreach($day['activities'] as $activity)
                                         <div class="group-activities-col-text">
-                                            <h5>Zajęcie grupowe</h5>
-                                            <h5>{{ $activity->name }}</h5>
-                                            <h5>{{ \Carbon\Carbon::parse($activity->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($activity->date_time_to)->format('H:i') }}</h5>
+                                            <p class="border-bottom">Zajęcie grupowe</p>
+                                            <p>{{ $activity->name }}</p>
+                                            <p>{{ \Carbon\Carbon::parse($activity->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($activity->date_time_to)->format('H:i') }}</p>
                                             <p>Numer sali: {{$activity->room_number}}</p>
                                         </div>
                                     @endforeach
                                     @foreach($day['personal_training'] as $personal_training)
                                         <div class="personal-training-col-text">
-                                            <h5>Trening personalny</h5>
-                                            <h5>{{ $personal_training->name }} {{ $personal_training->surname }}</h5>
-                                            <h5>{{ \Carbon\Carbon::parse($personal_training->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($personal_training->date_time_to)->format('H:i') }}</h5>
+                                            <p class="border-bottom">Trening personalny</p>
+                                            <p>{{ $personal_training->name }} {{ $personal_training->surname }}</p>
+                                            <p>{{ \Carbon\Carbon::parse($personal_training->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($personal_training->date_time_to)->format('H:i') }}</p>
                                         </div>
                                     @endforeach
                                 </div>

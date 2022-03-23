@@ -41,13 +41,30 @@ class PersonalTrainingController extends Controller
             }
         }
 
+        //pobranie treningów personalnych trenera oraz porównanie daty każdego treningu z datą podaną przez użytkownika
+        $personalTrainings = DB::table('personal_training')->where('id_trainer', $idTrainer)->get();
+
+        $temp2 = 0;
+        foreach ($personalTrainings as $pTraining) {
+            $trainingDates = [
+                'date_from' => $pTraining->date_time_from,
+                'date_to' => $pTraining->date_time_to
+            ];
+            $trainingDates['date_from'] = Carbon::parse($trainingDates['date_from']);
+            $trainingDates['date_to'] = Carbon::parse($trainingDates['date_to']);
+
+            if( $date_from < $trainingDates['date_to']  && $date_from > $trainingDates['date_from']->subHour() ) {
+                $temp2 = 1;
+            }
+        }
+
         //pobranie zajęć grupowych na podstawie tabeli łączącej
         $clientActivities = DB::table('client_group_activities')
             ->join('group_activities', 'client_group_activities.id_group_activities', '=', 'group_activities.id_group_activities')
             ->select('client_group_activities.*', 'group_activities.*')
             ->get();
 
-        $temp2 = 0;
+        $temp3 = 0;
         foreach ($clientActivities as $clientActivity) {
             $activityDates = [
                 'date_from' => $clientActivity->date_time_from,
@@ -57,13 +74,17 @@ class PersonalTrainingController extends Controller
             $activityDates['date_to'] = Carbon::parse($activityDates['date_to']);
 
             if( $date_from < $activityDates['date_to']  && $date_from > $activityDates['date_from']->subHour() ) {
-                $temp2 = 1;
+                $temp3 = 1;
             }
         }
+        if($temp2 != 0 ) {
+            return redirect('/personalTraining')->with('error', 'Błąd. Nie możesz zapisać na trening personalny,
+            ponieważ twój trener ma w tym czasie inne zajęcia. Wybierz innego trenera lub inny termin.');
+        }
 
-        if($temp1 != 0 || $temp2 != 0) {
+        if($temp1 != 0 ||  $temp3) {
 
-            return redirect('/personalTraining')->with('error', 'Błąd. Nie możesz zapisać się w tym czasie na trening personalny,
+            return redirect('/personalTraining')->with('error', 'Błąd. Nie możesz zapisać na trening personalny,
             ponieważ masz w tym czasie zaplanowane zajęcia grupowe lub inny trening!');
 
         }else {

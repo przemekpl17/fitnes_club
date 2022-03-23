@@ -34,6 +34,7 @@ class AdminController extends Controller
     //okno z tabelą użytkowników
     public function usersList()
     {
+
         $users = DB::table('users')
             ->join('client', 'users.id_client', '=', 'client.id_client')
             ->select('client.*', 'users.*')
@@ -372,7 +373,6 @@ class AdminController extends Controller
     //tworzenie zajęcia grupowego
     public function createActivity(Request $request)
     {
-
         $request->validate([
             'date_time_from' => 'required',
             'date_time_to' => 'required',
@@ -392,6 +392,29 @@ class AdminController extends Controller
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));
         $dateTo = Carbon::parse(\request()->get('date_time_to'));
+
+        //jeżeli wybrane zostaną różne dni
+        if($dateFrom->format('d') != $dateTo->format('d')) {
+            return redirect('/activitiesList/')->with('error', 'Wybrano niepoprawne daty trwania zajęcia grupowego.');
+        }
+
+        //pobranie treningów personalnych trenera oraz porównanie daty każdego treningu z datą podaną przez użytkownika
+        $personalTrainings = DB::table('personal_training')->where('id_trainer', $request->input('id_trainer'))->get();
+
+        $temp1 = 0;
+        foreach ($personalTrainings as $pTraining) {
+            $trainingDates = [
+                'date_from' => $pTraining->date_time_from,
+                'date_to' => $pTraining->date_time_to
+            ];
+            $trainingDates['date_from'] = Carbon::parse($trainingDates['date_from']);
+            $trainingDates['date_to'] = Carbon::parse($trainingDates['date_to']);
+
+            if( $dateFrom < $trainingDates['date_to']  && $dateFrom > $trainingDates['date_from']->subHour() ) {
+                $temp1 = 1;
+            }
+        }
+        //dd($temp1);
         $groupActivities = GroupActivity::all();
         $diffInMin = $dateFrom->diffInMinutes($dateTo);
 
@@ -408,11 +431,12 @@ class AdminController extends Controller
                 $dateCheck = 1;
             }
         }
+
         if ($diffInMin < 60) {
             return redirect('/activitiesList')->with('error', 'Zajęcia muszą trwać minimum godzinę!');
         }
-        if ($dateCheck != 0) {
-            return redirect('/activitiesList')->with('error', 'Zajęcie grupowe w tym czasie już istnieje. Usuń je, aby dodać nowe.');
+        if ($dateCheck != 0 || $temp1 != 0) {
+            return redirect('/activitiesList')->with('error', 'Zajęcie grupowe w tym czasie już istnieje lub trener personalny ma już zaplanowane zajęcia/trening w tym czasie. Sprawdź i spróbuj ponownie. ');
         } else {
             GroupActivity::create([
                 'name' => $request->input('name'),
@@ -442,6 +466,11 @@ class AdminController extends Controller
 
         $dateFrom = Carbon::parse(\request()->get('date_time_from'));
         $dateTo = Carbon::parse(\request()->get('date_time_to'));
+
+        //jeżeli wybrane zostaną różne dni
+        if($dateFrom->format('d') != $dateTo->format('d')) {
+            return redirect('/updateActivityForm/' . $id_activity)->with('error', 'Wybrano niepoprawne daty trwania zajęcia grupowego.');
+        }
 
         $diffInMin = $dateFrom->diffInMinutes($dateTo);
         $dateCheck = 0;

@@ -5,7 +5,7 @@
              <div class="swiper mySwiper ">
                 <div class="swiper-wrapper ">
                     @foreach ($daysOfMonth as $key => $dayOfMonth)
-                        <div class="swiper-slide group-activities-content init-slide='3'">
+                        <div class="swiper-slide group-activities-content">
                             @foreach($dayOfMonth as $key => $day)
                                 <div class="group-activities-col">
                                     <div class="group-activities-col-header">

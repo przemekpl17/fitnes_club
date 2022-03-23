@@ -28,12 +28,15 @@
         </body>
 
     <script>
+        var numOfSlides = document.querySelectorAll(".group-activities-content").length;
+        console.log("numOfSlides: " + numOfSlides);/* 3 */
         var swiper = new Swiper(".mySwiper", {
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
             initialSlide: 1,
+
         });
 
         $(function() {
@@ -49,5 +52,6 @@
         });
 
     </script>
+
 
 </html>
