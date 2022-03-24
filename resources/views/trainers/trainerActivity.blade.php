@@ -15,7 +15,7 @@
                                     </div>
                                     @foreach($day['activities'] as $activity)
                                         <div class="group-activities-col-text">
-                                            <p class="border-bottom">Zajęcie grupowe</p>
+                                            <p>Zajęcie grupowe</p>
                                             <p>{{ $activity->name }}</p>
                                             <p>{{ \Carbon\Carbon::parse($activity->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($activity->date_time_to)->format('H:i') }}</p>
                                             <p>Numer sali: {{$activity->room_number}}</p>
@@ -23,7 +23,7 @@
                                     @endforeach
                                     @foreach($day['personal_training'] as $personal_training)
                                         <div class="personal-training-col-text">
-                                            <p class="border-bottom">Trening personalny</p>
+                                            <p>Trening personalny</p>
                                             <p>{{ $personal_training->name }} {{ $personal_training->surname }}</p>
                                             <p>{{ \Carbon\Carbon::parse($personal_training->date_time_from)->format('H:i') }} - {{ \Carbon\Carbon::parse($personal_training->date_time_to)->format('H:i') }}</p>
                                         </div>
