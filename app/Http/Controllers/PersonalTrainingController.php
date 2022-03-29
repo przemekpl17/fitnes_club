@@ -120,10 +120,12 @@ class PersonalTrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteUserPersonalTraining($id,$id_client, Request $request)
+    public function deleteUserPersonalTraining($id, $id_client)
     {
 
-        $actualDay = Carbon::parse(Carbon::now());
+        $actualDay = Carbon::now('Poland')->toDateTimeString();
+
+        $training = PersonalTraining::where('id_personal_training', $id)->get();
 
         $personalTraining = DB::table('personal_training')
             ->join('trainer', 'personal_training.id_trainer', '=', 'trainer.id_trainer')
@@ -131,7 +133,7 @@ class PersonalTrainingController extends Controller
             ->select('trainer.*', 'personal_training.*', 'client.*')
             ->get();
 
-        if($actualDay > $personalTraining[$id_client-1]->date_time_from) {
+        if($actualDay > $training[0]->date_time_from) {
             return redirect('/clientActivity')->with('error', 'Ten trening już się odbył, nie możesz się z niego wypisać.');
         } else {
             //zwrócenie pieniędzy za trening na konto

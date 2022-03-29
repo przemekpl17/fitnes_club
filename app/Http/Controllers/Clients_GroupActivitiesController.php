@@ -92,11 +92,20 @@ class Clients_GroupActivitiesController extends Controller
      */
     public function deleteUserActivity($id, Request $request)
     {
-        Clients_GroupActivities::where('id_client_group_activities', $id)->delete();
-        $groupActivities = GroupActivity::find($request->get('id_activity'));
-        $groupActivities->enrolled_participants -= 1;
-        $groupActivities->save();
+        $actualDay = Carbon::now('Poland')->toDateTimeString();
 
-        return redirect('/clientActivity')->with('success', 'Wypisałeś się z zajęć.');
+        $clientGrupActivity = Clients_GroupActivities::where('id_client_group_activities', $id)->get();
+        $activity = GroupActivity::where('id_group_activities', $clientGrupActivity[0]->id_group_activities)->get();
+
+        if($actualDay > $activity[0]->date_time_from) {
+            return redirect('/clientActivity')->with('error', 'To zajęcie grupowe już się odbyło, nie możesz się z niego wypisać.');
+        } else {
+            Clients_GroupActivities::where('id_client_group_activities', $id)->delete();
+            $groupActivities = GroupActivity::find($request->get('id_activity'));
+            $groupActivities->enrolled_participants -= 1;
+            $groupActivities->save();
+
+            return redirect('/clientActivity')->with('success', 'Wypisałeś się z zajęć.');
+        }
     }
 }
