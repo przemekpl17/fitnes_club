@@ -62,12 +62,14 @@ class ClientsController extends Controller
                 'personal_training' => PersonalTraining::whereDate('date_time_from', $rowDate)
                     ->leftJoin('trainer', 'personal_training.id_trainer', '=', 'trainer.id_trainer')
                     ->where('id_client', $id_client)
-                    ->orderBy('date_time_from', 'asc')->get(),
+                    ->orderBy('date_time_from', 'asc')
+                    ->get(),
                 'activities' => DB::table('client_group_activities')
                     ->join('group_activities', 'client_group_activities.id_group_activities', '=', 'group_activities.id_group_activities')
                     ->select('client_group_activities.*', 'group_activities.*')
                     ->where('id_client', $id_client)
                     ->whereDate('date_time_from', $rowDate)
+                    ->orderBy('date_time_from', 'asc')
                     ->get()
             ];
 
