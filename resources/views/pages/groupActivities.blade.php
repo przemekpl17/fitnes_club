@@ -23,7 +23,6 @@
                                                 <input type="hidden" class="form-control" name="id_client" value="{{$id_client}}">
                                                 <input type="hidden" class="form-control" name="date_from" value="{{$activity->date_time_from}}">
                                                 <input type="hidden" class="form-control" name="date_to" value="{{$activity->date_time_to}}">
-                                                <input type="hidden" class="form-control" name="actual_day" value="{{$day['number_of_day']}}">
                                                 <input type="hidden" class="form-control" name="max_participants" value="{{$activity->max_participants}}">
                                                 <input type="hidden" class="form-control" name="enrolled_participants" value="{{$activity->enrolled_participants}}">
                                                 {{Form::submit('Zapisz się', ['class' => 'btn btn-dark'])}}

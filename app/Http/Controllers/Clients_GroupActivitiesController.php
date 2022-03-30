@@ -22,13 +22,14 @@ class Clients_GroupActivitiesController extends Controller
         $id_activity = $request->get('id_activity');
         $max_participants = intval($request->get('max_participants'));
         $enrolled_participants = intval($request->get('enrolled_participants'));
-        $actualDay = Carbon::parse(Carbon::now())->format('d');
+        $actualDay = Carbon::now('Poland')->toDateTimeString();
 
         //sprawdzenie czy klient nie dołączył już do zajęć
         $exists = Clients_GroupActivities::where('id_group_activities', $request->get('id_activity'))
             ->where('id_client', $request->get('id_client'))->get();
 
         $inputDay = $request->get('actual_day');
+
         $date_from = $request->get('date_from');
 
         $personalTrainings = DB::table('personal_training')
@@ -59,7 +60,7 @@ class Clients_GroupActivitiesController extends Controller
             return redirect('/groupActivities')->with('error', 'masz trening w tym samym czasie, dołącz do innych.');
         }
         if ($actualTicket->count()) {
-            if ($inputDay < $actualDay) {
+            if ($date_from < $actualDay) {
                 return redirect('/groupActivities')->with('error', 'Te zajęcia już się odbyły, lub masz trening w tym samym czasie, dołącz do innych.');
             } else if (!$exists->isEmpty()) {
                 return redirect('/groupActivities')->with('error', 'Dołączyłeś już do  tych zajęć. Wybierz inne.');
