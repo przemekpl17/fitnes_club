@@ -37,15 +37,6 @@
             {{Form::text('surname','', ['class' => 'form-control', 'placeholder' => 'Nazwisko'])}}
         </div>
 
-{{--        <div class="form-group col-md-6">--}}
-{{--            {{Form::label('title', 'Email')}}--}}
-{{--            {{Form::email('email','', ['class' => 'form-control', 'placeholder' => 'Email'])}}--}}
-{{--        </div>--}}
-
-{{--        <div class="form-group col-md-6">--}}
-{{--            {{Form::label('title', 'Telefon')}}--}}
-{{--            {{Form::number('telephone','', ['class' => 'form-control', 'placeholder' => 'Telefon'])}}--}}
-{{--        </div>--}}
     </div>
 
     <div class="form-row">
@@ -70,6 +61,11 @@
         </div>
 
         <div class="col-md-12">
+            <div class="form-group col-md-3">
+                {{Form::label('title', 'Cena za trening')}}
+                {{Form::number('training_price','', ['class' => 'form-control', 'placeholder' => 'Cena za trening'])}}
+            </div>
+
             {{Form::label('title', 'Płeć')}}
             <div class="form-check">
                 {{Form::radio('gender','m',['class'=> 'form-check-input'])}}
@@ -79,6 +75,7 @@
                 {{Form::radio('gender','k',['class'=> 'form-check-input'])}}
                 {{Form::label('title', 'Kobieta')}}
             </div>
+
 
         </div>
     </div>

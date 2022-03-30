@@ -213,14 +213,16 @@ class AdminController extends Controller
             'password' => 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
             'post_code' => 'nullable|regex:/^([0-9]{2})(-[0-9]{3})?$/i',
             'telephone' => 'nullable|max:9|unique:trainer',
-            'email' => 'email|unique:users'
+            'email' => 'email|unique:users',
+            'training_price' => 'required'
         ],
             [
                 'trainer_name.regex' => 'Imię nie może zawierać cyfr lub pozostać puste.',
                 'surname.regex' => 'Nazwisko nie może zawierać cyfr lub pozostać puste.',
                 'city.regex' => 'Nazwa miasta nie może zawierać cyfr.',
                 'street.regex' => 'Nazwa ulicy nie może zawierać cyfr.',
-                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___'
+                'post_code.regex' => 'Prawidłowy format kodu pocztowego: __-___',
+                'training_price.required' => 'Pole z ceną za trening jest wymagane.'
             ]);
 
         $trainer = Trainer::create([
@@ -232,9 +234,10 @@ class AdminController extends Controller
             'city' => $request->input('city'),
             'street' => $request->input('street'),
             'street_num' => $request->input('street_number'),
-            'post_code' => $request->input('post_code')
+            'post_code' => $request->input('post_code'),
+            'training_price' => $request->input('training_price')
         ]);
-
+        
         User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
