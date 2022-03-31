@@ -237,7 +237,7 @@ class AdminController extends Controller
             'post_code' => $request->input('post_code'),
             'training_price' => $request->input('training_price')
         ]);
-        
+
         User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -625,8 +625,9 @@ class AdminController extends Controller
         }
 
         //usunięcie artykułu i zdjęć z bazy danych
-        Article::where('id_article', $id)->delete();
         Images::where('article_id', $id)->delete();
+        Article::where('id_article', $id)->delete();
+        
 
         return redirect('/articlesList')->with('success', 'Artykuł usunięty.');
     }
