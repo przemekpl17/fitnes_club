@@ -81,9 +81,11 @@ class PersonalTrainingController extends Controller
         $actualTicket = DB::table('ticket')
             ->where('id_client_ticket', '=', $idClient)
             ->get();
-        
+       
         if(!$actualTicket->count()) {
             return redirect('/personalTraining')->with('error', 'Aby zakupić trening personalny musisz posiadać karnet!');
+        } elseif ($actualTicket[0]->date_to < $date_from) {
+            return redirect('/personalTraining')->with('error', 'Twój karnet zakończy się przed wybraną datą. Wybierz inną.');
         }
 
         if($temp2 != 0 ) {
