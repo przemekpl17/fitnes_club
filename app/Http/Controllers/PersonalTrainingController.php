@@ -77,6 +77,15 @@ class PersonalTrainingController extends Controller
                 $temp3 = 1;
             }
         }
+        //sprawdzenie czy użytkownik posiada karnet - bez karnetu nie może uczestniczyć w zajęciach grupowych
+        $actualTicket = DB::table('ticket')
+            ->where('id_client_ticket', '=', $idClient)
+            ->get();
+        
+        if(!$actualTicket->count()) {
+            return redirect('/personalTraining')->with('error', 'Aby zakupić trening personalny musisz posiadać karnet!');
+        }
+
         if($temp2 != 0 ) {
             return redirect('/personalTraining')->with('error', 'Błąd. Nie możesz zapisać na trening personalny,
             ponieważ twój trener ma w tym czasie inne zajęcia. Wybierz innego trenera lub inny termin.');

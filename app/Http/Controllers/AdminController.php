@@ -627,7 +627,7 @@ class AdminController extends Controller
         //usunięcie artykułu i zdjęć z bazy danych
         Images::where('article_id', $id)->delete();
         Article::where('id_article', $id)->delete();
-        
+
 
         return redirect('/articlesList')->with('success', 'Artykuł usunięty.');
     }
